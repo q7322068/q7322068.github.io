@@ -10,13 +10,6 @@
     $main.parent().remove('.ins-search');
     $('body').append($main);
 
-    // https://stackoverflow.com/questions/1147359/how-to-decode-html-entities-using-jquery#answer-1395954
-    function decodeEntities(encodedString) {
-        var textArea = document.createElement('textarea');
-        textArea.innerHTML = encodedString;
-        return textArea.value;
-    }
-
     function section (title) {
         return $('<section>').addClass('ins-section')
             .append($('<header>').addClass('ins-section-header').text(title));
@@ -26,7 +19,7 @@
         return $('<div>').addClass('ins-selectable').addClass('ins-search-item')
             .append($('<header>').append($('<i>').addClass('fa').addClass('fa-' + icon)).append(title != null && title != '' ? title : CONFIG.TRANSLATION['UNTITLED'])
                 .append(slug ? $('<span>').addClass('ins-slug').text(slug) : null))
-            .append(preview ? $('<p>').addClass('ins-search-preview').text(decodeEntities(preview)) : null)
+            .append(preview ? $('<p>').addClass('ins-search-preview').text(preview) : null)
             .attr('data-url', url);
     }
 
