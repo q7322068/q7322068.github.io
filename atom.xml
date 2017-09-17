@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-  <title>One 程序猿|博客</title>
+  <title>足迹|杨文魁</title>
   
-  <subtitle>实战经验梳理，分享与你，也分享与自己！</subtitle>
+  <subtitle>实战经验梳理，分享与你，分享与自己！</subtitle>
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.onecoderspace.com/"/>
@@ -10,7 +10,7 @@
   <id>http://www.onecoderspace.com/</id>
   
   <author>
-    <name>arron</name>
+    <name>杨文魁</name>
     
   </author>
   
