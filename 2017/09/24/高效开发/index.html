@@ -13,7 +13,7 @@
 <meta property="og:site_name" content="足迹|杨文魁">
 <meta property="og:description" content="从事开发工作五年多，参与、带的项目几十个，中间也思考过怎么提高项目的开发速度和质量，也陆续尝试了一些方法，最近稍有空闲，就系统梳理、自我总结一把，主要有以下几点：    理清需求再动手，不要后期需求变更、代码补丁打的自己酸爽无比 减少模板代码的copy开发，能自动生成的自动生成  提取自己公司的模板项目，配合代码生成器生成40%以上的模板代码   生成规范可用的文档，减少文档维护工作   自动构建">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2017-09-24T13:11:10.000Z">
+<meta property="og:updated_time" content="2017-09-24T13:14:09.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="web项目高效开发">
 <meta name="twitter:description" content="从事开发工作五年多，参与、带的项目几十个，中间也思考过怎么提高项目的开发速度和质量，也陆续尝试了一些方法，最近稍有空闲，就系统梳理、自我总结一把，主要有以下几点：    理清需求再动手，不要后期需求变更、代码补丁打的自己酸爽无比 减少模板代码的copy开发，能自动生成的自动生成  提取自己公司的模板项目，配合代码生成器生成40%以上的模板代码   生成规范可用的文档，减少文档维护工作   自动构建">
@@ -251,23 +251,26 @@
 <li>提取自己公司的模板项目，配合代码生成器生成40%以上的模板代码  </li>
 <li>生成规范可用的文档，减少文档维护工作  </li>
 <li>自动构建部署项目</li>
-<li>规范日志，提升运维效率<br>思路就是“通用的东西进行提取，能自动生成的东西自动生成，让程序员专心写业务代码”。  <a id="more"></a>
-<h1 id="理清需求"><a href="#理清需求" class="headerlink" title="理清需求"></a>理清需求</h1>功能点多，技术难度大对程序员来说正常，加班干活也没啥怨言，完成了心中还有点成就感，但几个功能点翻来覆去的调整个三五次，那90%的人估计都已经在心里问候项目经理了。<br>有些需求变更是难免的，但更多的是可以通过合适的管理、设计来避免的，特别是小公司的技术负责人（如我）更应该注意”想清楚要做什么比立马思考怎么做更重要“，你在开始设计时跑偏一些，忘记一些，就意味着之后的某个时间团队集体狼狈的加班，这里有几点小经验分享给大军：  </li>
+<li>规范日志，提升运维效率<br>思路就是“通用的东西进行提取，能自动生成的东西自动生成，让程序员专心写业务代码”。    <a id="more"></a>
+</li>
+</ul>
+<h1 id="1、理清需求"><a href="#1、理清需求" class="headerlink" title="1、理清需求"></a>1、理清需求</h1><p>功能点多，技术难度大对程序员来说正常，加班干活也没啥怨言，完成了心中还有点成就感，但几个功能点翻来覆去的调整个三五次，那90%的人估计都已经在心里问候项目经理了。<br>有些需求变更是难免的，但更多的是可以通过合适的管理、设计来避免的，特别是小公司的技术负责人（如我）更应该注意”想清楚要做什么比立马思考怎么做更重要“，你在开始设计时跑偏一些，忘记一些，就意味着之后的某个时间团队集体狼狈的加班，这里有几点小经验分享给大军：  </p>
+<ul>
 <li>认真阅读需求文档，在心里构画出整个网站的全景图，任何一个分支小道都不忽视</li>
 <li>提出问题，让需求人员想的更多一点</li>
 <li>自己将对需求的认识向需求+团队成员讲一遍</li>
 <li>负责某一模块的团队成员复述一下对需求的认识</li>
 </ul>
-<h1 id="项目模板"><a href="#项目模板" class="headerlink" title="项目模板"></a>项目模板</h1><p>项目内有很多底层通用的东西，特别是一个公司内容的项目，不同项目间共性的东西更多，很多时候开发也是copy一个项目，把原来的业务功能删减，有类似功能的再从不同项目里copy过来。这种情况将共性代码提出为一个base项目，后续项目都直接在base项目的基础上开发，明显会更舒爽很多。<br>目前使用spring-boot搭建了一个后端web接口开发的模板项目，后续也会在《spring boot项目实战》系列文章进行分享。</p>
-<h1 id="代码生成"><a href="#代码生成" class="headerlink" title="代码生成"></a>代码生成</h1><p>代码生成器的原理就是读取表结构，生成对应的模板代码，所以开发一个项目先进行数据库设计。<br><strong>一、数据库设计</strong><br>有段时间设计数据库使用excel，后面发现修改、维护、查看都不怎么方便，现在在使用免费的workbench进行数据库设计，软件操作还算顺手，能够简单的体现模块、表之间的关系。在这方面根据个人感觉，用着顺手就行，建议使用专业的软件，excel之类的从效果上来说的确有一定的差距。建议每个字段都设置好注释，字段命名多个单词用下划线分割。</p>
+<h1 id="2、项目模板"><a href="#2、项目模板" class="headerlink" title="2、项目模板"></a>2、项目模板</h1><p>项目内有很多底层通用的东西，特别是一个公司内容的项目，不同项目间共性的东西更多，很多时候开发也是copy一个项目，把原来的业务功能删减，有类似功能的再从不同项目里copy过来。这种情况将共性代码提出为一个base项目，后续项目都直接在base项目的基础上开发，明显会更舒爽很多。<br>目前使用spring-boot搭建了一个后端web接口开发的模板项目，后续也会在《spring boot项目实战》系列文章进行分享。</p>
+<h1 id="3、代码生成"><a href="#3、代码生成" class="headerlink" title="3、代码生成"></a>3、代码生成</h1><p>代码生成器的原理就是读取表结构，生成对应的模板代码，所以开发一个项目先进行数据库设计。<br><strong>一、数据库设计</strong><br>有段时间设计数据库使用excel，后面发现修改、维护、查看都不怎么方便，现在在使用免费的workbench进行数据库设计，软件操作还算顺手，能够简单的体现模块、表之间的关系。在这方面根据个人感觉，用着顺手就行，建议使用专业的软件，excel之类的从效果上来说的确有一定的差距。建议每个字段都设置好注释，字段命名多个单词用下划线分割。</p>
 <p><strong>二、代码生成器</strong><br>本人开发了一个代码生成器，功能有：  </p>
 <ol>
 <li>生成指定数据库内所有表对应的模板代码（实体、dao、service、controller）</li>
 <li>生成指定数据库内指定表对应的模板代码（实体、dao、service、controller）<br>原理是通过sql查询数据内有哪些数据库，数据库内有哪些表，表里面的字段信息，然后通过freemarker来生成模板代码，如有需要可根据该项目调整对应的模板生成自己公司的代码。<br>GitHub: <a href="https://github.com/q7322068/code-generation" target="_blank">https://github.com/q7322068/code-generation</a></li>
 </ol>
-<h1 id="在线文档生成"><a href="#在线文档生成" class="headerlink" title="在线文档生成"></a>在线文档生成</h1><p>公司项目是前后端分离的架构，刚开始都是通过excel来提供接口文档给前端，后来维护起来实在是太麻烦，调整了就要改excel，多个人维护起来，很快就乱套了，后来决定使用swagger2来构建在线api文档，以代码的形式来维护，代码调整时添加上指定格式的注释就能自动生成接口文档，前端通过在线文档来查看，配合起来更舒服。<br>使用请参考：<br><a href="http://blog.didispace.com/springbootswagger2/" target="_blank" rel="external">Spring Boot中使用Swagger2构建强大的RESTful API文档</a><br><a href="http://blog.didispace.com/spring-boot-starter-swagger-1.1.0/" target="_blank" rel="external">简化Swagger使用的自制Starter：spring-boot-starter-swagger，欢迎使用和吐槽</a><br><a href="http://blog.didispace.com/spring-boot-starter-swagger-1.3.0/" target="_blank" rel="external">spring-boot-starter-swagger 1.3.0.RELEASE：新增对JSR-303的支持和host的配置</a></p>
-<h1 id="自动构建"><a href="#自动构建" class="headerlink" title="自动构建"></a>自动构建</h1><p>代码开发好了，总是要在服务器上部署运行的，我现在的公司采用Jenkins来完成自动打包部署，提交svn代码，Jenkins自动打包（支持war包、jar包）部署至测试环境，预发布环境和正式环境基于测试环境的代码进行发布（通过脚本进行发布，实际上就是遍历某个文件夹下的文件，选择后进行copy）。</p>
-<h1 id="日志很重要"><a href="#日志很重要" class="headerlink" title="日志很重要"></a>日志很重要</h1><p>刚到现在公司的时候，接手的项目日志千奇百怪，有打印到控制台的，有日志未生效的，有自己写到某个文件的（你没看错），加上项目文档严重缺失，有过类似体验的兄弟知道是啥感觉。所以抽取基础项目时直接定好日志规范，在规定目录下生成日志，日志完备了，日常运维也就简单了。</p>
+<h1 id="4、在线文档生成"><a href="#4、在线文档生成" class="headerlink" title="4、在线文档生成"></a>4、在线文档生成</h1><p>公司项目是前后端分离的架构，刚开始都是通过excel来提供接口文档给前端，后来维护起来实在是太麻烦，调整了就要改excel，多个人维护起来，很快就乱套了，后来决定使用swagger2来构建在线api文档，以代码的形式来维护，代码调整时添加上指定格式的注释就能自动生成接口文档，前端通过在线文档来查看，配合起来更舒服。<br>使用请参考：<br><a href="http://blog.didispace.com/springbootswagger2/" target="_blank" rel="external">Spring Boot中使用Swagger2构建强大的RESTful API文档</a><br><a href="http://blog.didispace.com/spring-boot-starter-swagger-1.1.0/" target="_blank" rel="external">简化Swagger使用的自制Starter：spring-boot-starter-swagger，欢迎使用和吐槽</a><br><a href="http://blog.didispace.com/spring-boot-starter-swagger-1.3.0/" target="_blank" rel="external">spring-boot-starter-swagger 1.3.0.RELEASE：新增对JSR-303的支持和host的配置</a></p>
+<h1 id="4、自动构建"><a href="#4、自动构建" class="headerlink" title="4、自动构建"></a>4、自动构建</h1><p>代码开发好了，总是要在服务器上部署运行的，我现在的公司采用Jenkins来完成自动打包部署，提交svn代码，Jenkins自动打包（支持war包、jar包）部署至测试环境，预发布环境和正式环境基于测试环境的代码进行发布（通过脚本进行发布，实际上就是遍历某个文件夹下的文件，选择后进行copy）。</p>
+<h1 id="5、日志很重要"><a href="#5、日志很重要" class="headerlink" title="5、日志很重要"></a>5、日志很重要</h1><p>刚到现在公司的时候，接手的项目日志千奇百怪，有打印到控制台的，有日志未生效的，有自己写到某个文件的（你没看错），加上项目文档严重缺失，有过类似体验的兄弟知道是啥感觉。所以抽取基础项目时直接定好日志规范，在规定目录下生成日志，日志完备了，日常运维也就简单了。</p>
 <h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>主要是个思路的事，工作三五年的程序猿们，抽个框架、弄个代码生成器、规划下整个开发过程也就一两周的样子，但是很多时候都是想着copy一下也能用，不愿意、懒得做这些额外的事。<br>希望这篇文章能诱发点你的“懒病”，每天只写“爽”的代码。</p>
 
             <div class="article-copyright">
