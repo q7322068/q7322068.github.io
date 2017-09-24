@@ -4,60 +4,25 @@
 
     
   <url>
-    <loc>http://www.onecoderspace.com/2017/09/17/test/</loc>
-    <lastmod>2017-09-17T12:38:43.000Z</lastmod>
+    <loc>http://www.onecoderspace.com/2017/09/24/%E9%AB%98%E6%95%88%E5%BC%80%E5%8F%91/</loc>
+    <lastmod>2017-09-24T13:06:38.000Z</lastmod>
     <data>
         <display>
-        <title>test</title>
-        <pubTime>2017-09-17T12:38:43.000Z</pubTime>
+        <title>web项目高效开发</title>
+        <pubTime>2017-09-24T06:26:20.000Z</pubTime>
         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-    
-    
-    
-  <url>
-    <loc>http://www.onecoderspace.com/2017/08/20/hexo%E9%83%A8%E7%BD%B2/</loc>
-    <lastmod>2017-09-10T13:18:53.000Z</lastmod>
-    <data>
-        <display>
-        <title>hexo部署</title>
-        <pubTime>2017-08-20T14:40:11.000Z</pubTime>
-        
-        <tag>hexo</tag>
-         
-        <tag>test</tag>
+        <tag>java实战 spirng-boot 项目高效开发 自动构建 代码生成</tag>
          
          
            
              
-              <breadCrumb title="hexo" url="http://www.onecoderspace.com/categories/hexo/"/>
+              <breadCrumb title="java实战" url="http://www.onecoderspace.com/categories/java%E5%AE%9E%E6%88%98/"/>
           
         </display>
     </data>
     </url>
 
     
-  <url>
-    <loc>http://www.onecoderspace.com/2017/08/20/hello-world/</loc>
-    <lastmod>2017-09-10T08:17:50.000Z</lastmod>
-    <data>
-        <display>
-        <title>Hello World</title>
-        <pubTime>2017-08-20T12:40:55.000Z</pubTime>
-        
-         
-           
-             
-              <breadCrumb title="test" url="http://www.onecoderspace.com/categories/test/"/>
-          
-        </display>
-    </data>
-    </url>
-
+    
+    
 </urlset>
