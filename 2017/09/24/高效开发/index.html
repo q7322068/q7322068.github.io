@@ -13,7 +13,7 @@
 <meta property="og:site_name" content="足迹|杨文魁">
 <meta property="og:description" content="从事开发工作五年多，参与、带的项目几十个，中间也思考过怎么提高项目的开发速度和质量，也陆续尝试了一些方法，最近稍有空闲，就系统梳理、自我总结一把，主要有以下几点：    理清需求再动手，不要后期需求变更、代码补丁打的自己酸爽无比 减少模板代码的copy开发，能自动生成的自动生成  提取自己公司的模板项目，配合代码生成器生成40%以上的模板代码   生成规范可用的文档，减少文档维护工作   自动构建">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2017-09-24T13:14:09.000Z">
+<meta property="og:updated_time" content="2017-09-24T13:15:22.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="web项目高效开发">
 <meta name="twitter:description" content="从事开发工作五年多，参与、带的项目几十个，中间也思考过怎么提高项目的开发速度和质量，也陆续尝试了一些方法，最近稍有空闲，就系统梳理、自我总结一把，主要有以下几点：    理清需求再动手，不要后期需求变更、代码补丁打的自己酸爽无比 减少模板代码的copy开发，能自动生成的自动生成  提取自己公司的模板项目，配合代码生成器生成40%以上的模板代码   生成规范可用的文档，减少文档维护工作   自动构建">
@@ -269,8 +269,8 @@
 <li>生成指定数据库内指定表对应的模板代码（实体、dao、service、controller）<br>原理是通过sql查询数据内有哪些数据库，数据库内有哪些表，表里面的字段信息，然后通过freemarker来生成模板代码，如有需要可根据该项目调整对应的模板生成自己公司的代码。<br>GitHub: <a href="https://github.com/q7322068/code-generation" target="_blank">https://github.com/q7322068/code-generation</a></li>
 </ol>
 <h1 id="4、在线文档生成"><a href="#4、在线文档生成" class="headerlink" title="4、在线文档生成"></a>4、在线文档生成</h1><p>公司项目是前后端分离的架构，刚开始都是通过excel来提供接口文档给前端，后来维护起来实在是太麻烦，调整了就要改excel，多个人维护起来，很快就乱套了，后来决定使用swagger2来构建在线api文档，以代码的形式来维护，代码调整时添加上指定格式的注释就能自动生成接口文档，前端通过在线文档来查看，配合起来更舒服。<br>使用请参考：<br><a href="http://blog.didispace.com/springbootswagger2/" target="_blank" rel="external">Spring Boot中使用Swagger2构建强大的RESTful API文档</a><br><a href="http://blog.didispace.com/spring-boot-starter-swagger-1.1.0/" target="_blank" rel="external">简化Swagger使用的自制Starter：spring-boot-starter-swagger，欢迎使用和吐槽</a><br><a href="http://blog.didispace.com/spring-boot-starter-swagger-1.3.0/" target="_blank" rel="external">spring-boot-starter-swagger 1.3.0.RELEASE：新增对JSR-303的支持和host的配置</a></p>
-<h1 id="4、自动构建"><a href="#4、自动构建" class="headerlink" title="4、自动构建"></a>4、自动构建</h1><p>代码开发好了，总是要在服务器上部署运行的，我现在的公司采用Jenkins来完成自动打包部署，提交svn代码，Jenkins自动打包（支持war包、jar包）部署至测试环境，预发布环境和正式环境基于测试环境的代码进行发布（通过脚本进行发布，实际上就是遍历某个文件夹下的文件，选择后进行copy）。</p>
-<h1 id="5、日志很重要"><a href="#5、日志很重要" class="headerlink" title="5、日志很重要"></a>5、日志很重要</h1><p>刚到现在公司的时候，接手的项目日志千奇百怪，有打印到控制台的，有日志未生效的，有自己写到某个文件的（你没看错），加上项目文档严重缺失，有过类似体验的兄弟知道是啥感觉。所以抽取基础项目时直接定好日志规范，在规定目录下生成日志，日志完备了，日常运维也就简单了。</p>
+<h1 id="5、自动构建"><a href="#5、自动构建" class="headerlink" title="5、自动构建"></a>5、自动构建</h1><p>代码开发好了，总是要在服务器上部署运行的，我现在的公司采用Jenkins来完成自动打包部署，提交svn代码，Jenkins自动打包（支持war包、jar包）部署至测试环境，预发布环境和正式环境基于测试环境的代码进行发布（通过脚本进行发布，实际上就是遍历某个文件夹下的文件，选择后进行copy）。</p>
+<h1 id="6、日志很重要"><a href="#6、日志很重要" class="headerlink" title="6、日志很重要"></a>6、日志很重要</h1><p>刚到现在公司的时候，接手的项目日志千奇百怪，有打印到控制台的，有日志未生效的，有自己写到某个文件的（你没看错），加上项目文档严重缺失，有过类似体验的兄弟知道是啥感觉。所以抽取基础项目时直接定好日志规范，在规定目录下生成日志，日志完备了，日常运维也就简单了。</p>
 <h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>主要是个思路的事，工作三五年的程序猿们，抽个框架、弄个代码生成器、规划下整个开发过程也就一两周的样子，但是很多时候都是想着copy一下也能用，不愿意、懒得做这些额外的事。<br>希望这篇文章能诱发点你的“懒病”，每天只写“爽”的代码。</p>
 
             <div class="article-copyright">
