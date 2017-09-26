@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <meta charset="utf-8">
+    
+    <title>spring boot项目实战：跨域问题解决 | 足迹|成长之路</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="背景前后端分离架构，前端anglerjs，后端spring boot,使用shiro作为权限控制，已配置通用跨域请求支持。前端调用接口时部分情况正常，部分情况出现跨域请求不支持情况，错误信息如下：">
+<meta name="keywords" content="spring boot,CORS,跨域,ajax post跨域">
+<meta property="og:type" content="article">
+<meta property="og:title" content="spring boot项目实战：跨域问题解决">
+<meta property="og:url" content="http://www.onecoderspace.com/2017/09/26/spring-boot项目实战：跨域/index.html">
+<meta property="og:site_name" content="足迹|成长之路">
+<meta property="og:description" content="背景前后端分离架构，前端anglerjs，后端spring boot,使用shiro作为权限控制，已配置通用跨域请求支持。前端调用接口时部分情况正常，部分情况出现跨域请求不支持情况，错误信息如下：">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2017-09-26T13:11:01.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="spring boot项目实战：跨域问题解决">
+<meta name="twitter:description" content="背景前后端分离架构，前端anglerjs，后端spring boot,使用shiro作为权限控制，已配置通用跨域请求支持。前端调用接口时部分情况正常，部分情况出现跨域请求不支持情况，错误信息如下：">
+    
+
+    
+        <link rel="alternate" href="/atom.xml" title="足迹|成长之路" type="application/atom+xml" />
+    
+
+    
+
+    <link rel="stylesheet" href="/vendor/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/vendor/open-sans/styles.css">
+    <link rel="stylesheet" href="/vendor/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/vendor/jquery/2.1.3/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/vendor/lightgallery/css/lightgallery.min.css">
+    
+    
+    
+    
+    
+
+
+</head>
+
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">足迹|成长之路</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/.">主页</a>
+                
+                    <a class="main-nav-link" href="/archives">归档</a>
+                
+                    <a class="main-nav-link" href="/about">关于我</a>
+                
+            </nav>
+            
+                
+                <nav id="sub-nav">
+                    <div class="profile" id="profile-nav">
+                        <a id="profile-anchor" href="javascript:;">
+                            <img class="avatar" src="/css/images/avatar.jpg" />
+                            <i class="fa fa-caret-down"></i>
+                        </a>
+                    </div>
+                </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="想要查找什么..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/.">主页</a></td>
+                
+                    <td><a class="main-nav-link" href="/archives">归档</a></td>
+                
+                    <td><a class="main-nav-link" href="/about">关于我</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+                
+
+<aside id="profile">
+    <div class="inner profile-inner">
+        <div class="base-info profile-block">
+            <img id="avatar" src="/css/images/avatar.jpg" />
+            <h2 id="name">杨文魁</h2>
+            <h3 id="title">本分的java web程序员，写写代码，做做架构，愿意沉下心学习新的技术，在这里分享记录学习工作中的心得</h3>
+            <span id="location"><i class="fa fa-map-marker"></i>中国 - 上海</span>
+            <a id="follow" target="_blank" href="http://www.onecoderspace.com/about">关注我</a>
+        </div>
+        <div class="article-info profile-block">
+            <div class="article-info-block">
+                5
+                <span>文章</span>
+            </div>
+            <div class="article-info-block">
+                27
+                <span>标签</span>
+            </div>
+        </div>
+        
+        <div class="profile-block social-links">
+            <table>
+                <tr>
+                    
+                    
+                    <td>
+                        <a href="https://github.com/q7322068" target="_blank" title="github" class=tooltip>
+                            <i class="fa fa-github"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="mailto:q7322068@126.com" target="_blank" title="envelope" class=tooltip>
+                            <i class="fa fa-envelope"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/css/images/myweixin.png" target="_blank" title="weixin" class=tooltip>
+                            <i class="fa fa-weixin"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/atom.xml" target="_blank" title="rss" class=tooltip>
+                            <i class="fa fa-rss"></i>
+                        </a>
+                    </td>
+                    
+                </tr>
+            </table>
+        </div>
+        
+    </div>
+</aside>
+
+            
+            <section id="main"><article id="post-spring-boot项目实战：跨域" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+            spring boot项目实战：跨域问题解决
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2017/09/26/spring-boot项目实战：跨域/">
+            <time datetime="2017-09-26T12:44:40.000Z" itemprop="datePublished">2017-09-26</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/spring-boot实战/">spring boot实战</a>
+    </div>
+
+                        
+    <!--<div class="article-tag">-->
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/CORS/">CORS</a>, <a class="tag-link" href="/tags/ajax-post跨域/">ajax post跨域</a>, <a class="tag-link" href="/tags/spring-boot/">spring boot</a>, <a class="tag-link" href="/tags/跨域/">跨域</a>
+    <!--</div>-->
+
+
+                        
+                          <span id="busuanzi_container_site_pv" style='display:none;float: right'>
+                          <i class="fa fa-eye" aria-hidden="true" style="margin-right:5px;"></i><span id="busuanzi_value_page_pv"></span>人阅读
+                        </span>
+                        
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>前后端分离架构，前端anglerjs，后端spring boot,使用shiro作为权限控制，已配置通用跨域请求支持。<br>前端调用接口时部分情况正常，部分情况出现跨域请求不支持情况，错误信息如下：<br><a id="more"></a><br><figure class="highlight vhdl"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Response <span class="keyword">to</span> preflight request doesn<span class="symbol">'t</span> pass <span class="keyword">access</span> control check: No <span class="symbol">'Access</span>-Control-Allow-Origin' header <span class="keyword">is</span> present <span class="keyword">on</span> the requested resource. Origin <span class="symbol">'xxxx</span>' <span class="keyword">is</span> therefore <span class="keyword">not</span> allowed <span class="keyword">access</span>.</div></pre></td></tr></table></figure>    </p>
+<h3 id="配置错了？"><a href="#配置错了？" class="headerlink" title="配置错了？"></a>配置错了？</h3><p>首先，想到的就是对跨域请求支持的配置是错误的，尝试着替换不同的跨域支持配置，有以下几种：<br>1、继承WebMvcConfigurerAdapter<br><figure class="highlight accesslog"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">@Configuration</div><div class="line">public class AppConfig extends WebMvcConfigurerAdapter &#123;</div><div class="line"></div><div class="line">    @Override</div><div class="line">    public void addCorsMappings(CorsRegistry registry) &#123;</div><div class="line">        registry.addMapping(<span class="string">"/**"</span>)</div><div class="line">                .allowedOrigins(<span class="string">"*"</span>)</div><div class="line">                .allowCredentials(true).allowedHeaders(<span class="string">"Origin, X-Requested-With, Content-Type, Accept"</span>)</div><div class="line">                .allowedMethods(<span class="string">"<span class="keyword">GET</span>"</span>, <span class="string">"<span class="keyword">POST</span>"</span>, <span class="string">"<span class="keyword">DELETE</span>"</span>, <span class="string">"<span class="keyword">PUT</span>"</span>, <span class="string">"<span class="keyword">OPTIONS</span>"</span>)</div><div class="line">                .maxAge(<span class="number">3600</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure><br>2、配置WebMvcConfigurer<br><figure class="highlight aspectj"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Bean</span></div><div class="line"><span class="keyword">public</span> <span class="function">WebMvcConfigurer <span class="title">corsConfigurer</span><span class="params">()</span> </span>&#123;</div><div class="line">	<span class="keyword">return</span> <span class="keyword">new</span> WebMvcConfigurerAdapter() &#123;</div><div class="line">		<span class="meta">@Override</span></div><div class="line">		<span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">addCorsMappings</span><span class="params">(CorsRegistry registry)</span> </span>&#123;</div><div class="line">			registry.addMapping(<span class="string">"/**"</span>).allowedOrigins(<span class="string">"*"</span>)</div><div class="line">					.allowedMethods(<span class="string">"*"</span>).allowedHeaders(<span class="string">"*"</span>)</div><div class="line">					.allowCredentials(<span class="keyword">true</span>)</div><div class="line">					.exposedHeaders(HttpHeaders.SET_COOKIE).maxAge(<span class="number">3600</span>L);</div><div class="line">		&#125;</div><div class="line">	&#125;;</div><div class="line">&#125;</div></pre></td></tr></table></figure><br>…</p>
+<p><a href="https://spring.io/blog/2015/06/08/cors-support-in-spring-framework" target="_blank" rel="external">CORS support in Spring Framework</a>内的方式都尝试了一遍，发现问题仍然未解决，看到文档内的一个点</p>
+<blockquote>
+<p>If you are using Spring Security, make sure to enable CORS at Spring Security level as well to allow it to leverage the configuration defined at Spring MVC level.</p>
+</blockquote>
+<p>大概意思就是使用Spring Security要进行特殊的配置来支持CORS。而当前项目内使用的是shiro，是不是权限控制导致的问题?检查shiro相关代码，果然找到了问题，在loginFilter内会判断如果未登录，就通过response写回未登录提示，代码如下：<br><figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">Subject </span><span class="keyword">subject </span>= SecurityUtils.getSubject()<span class="comment">;</span></div><div class="line">if (!<span class="keyword">subject.isAuthenticated()) </span>&#123;</div><div class="line">	HttpServletResponse resp = (HttpServletResponse) response<span class="comment">;</span></div><div class="line">	String contentType = <span class="string">"application/json"</span><span class="comment">;</span></div><div class="line">	resp.setContentType(contentType)<span class="comment">;</span></div><div class="line">	resp.setCharacterEncoding(<span class="string">"UTF-8"</span>)<span class="comment">;</span></div><div class="line">	</div><div class="line">	Map&lt;String, String&gt; map = Maps.newLinkedHashMap()<span class="comment">;</span></div><div class="line">	map.put(<span class="string">"code"</span>, <span class="string">"xxx"</span>)<span class="comment">;</span></div><div class="line">	map.put(<span class="string">"msg"</span>, <span class="string">"xxx"</span>)<span class="comment">;</span></div><div class="line">	String result = <span class="keyword">JacksonHelper.toJson(map);</span></div><div class="line"><span class="keyword">	</span>PrintWriter out = resp.getWriter()<span class="comment">;</span></div><div class="line">	try&#123;</div><div class="line">		out.print(result)<span class="comment">;</span></div><div class="line">		out.flush()<span class="comment">;</span></div><div class="line">	&#125; finally &#123;</div><div class="line">		out.<span class="keyword">close();</span></div><div class="line"><span class="keyword">	</span>&#125;</div><div class="line">	return<span class="comment">;</span></div><div class="line">&#125;</div></pre></td></tr></table></figure><br>那就添加上跨域支持<br><figure class="highlight less"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">resp</span><span class="selector-class">.setHeader</span>(<span class="string">"Access-Control-Allow-Credentials"</span>, <span class="string">"true"</span>);</div><div class="line"><span class="selector-tag">resp</span><span class="selector-class">.setHeader</span>(<span class="string">"Access-Control-Allow-Origin"</span>,request.getHeader(<span class="string">"Origin"</span>));</div></pre></td></tr></table></figure><br>本来以为ok了，但是前端是不报错了，但并不能获得对应接口期望的结果，而是一直收到<br><figure class="highlight json"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&#123;<span class="attr">"code"</span>:<span class="string">"xxx"</span>,<span class="attr">"msg"</span>:<span class="string">"xxx"</span>&#125;</div></pre></td></tr></table></figure><br>显然是被登录拦截了，但是明明已经登录，而且有的接口可以正常通过登录拦截，为什么部分接口会出现不能登录的情况呢？  </p>
+<h3 id="明明登录了，为什么被loginFilter拦截？"><a href="#明明登录了，为什么被loginFilter拦截？" class="headerlink" title="明明登录了，为什么被loginFilter拦截？"></a>明明登录了，为什么被loginFilter拦截？</h3><p>遇到了问题就要想办法解决，首先就是怀疑客户端sessionId未被正常保存，在loginFilter内添加日志打印sessionID，发现每次的sessionID都不一样，问题清晰了一些，前端并未正确的保持登录状态，对比前端两个调用接口的代码，发现正常的是get请求，post请求不正常，通过在网上搜索，<strong>发现ajax post跨域请求时，默认是不携带浏览器的cookie的</strong>，也就是每次请求都会生成一个新的session，因此post请求都被登录拦截。解决办法如下：<br><figure class="highlight accesslog"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">$.ajax(&#123;</div><div class="line">	type:<span class="string">"<span class="keyword">POST</span>"</span>,</div><div class="line">	url:<span class="string">""</span>,</div><div class="line">	data:&#123;&#125;,</div><div class="line">	crossDomain:true,</div><div class="line">       xhrFields: &#123;  withCredentials: true  &#125;,</div><div class="line">	success:function(data)&#123;</div><div class="line">		</div><div class="line">	&#125;,</div><div class="line">	error:function(data)&#123;</div><div class="line">		</div><div class="line">	&#125;</div><div class="line">&#125;)</div></pre></td></tr></table></figure><br><strong>配置crossDomain:true 和 xhrFields: {  withCredentials: true  }就可以让请求正常携带cookie。</strong></p>
+<h3 id="一个完整可用方案"><a href="#一个完整可用方案" class="headerlink" title="一个完整可用方案"></a>一个完整可用方案</h3><p>1、配置支持跨域请求（多种方式自由选择，推荐使用下面的方式）<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Configuration</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WebConfig</span> </span>&#123;</div><div class="line"></div><div class="line">	<span class="comment">/**</span></div><div class="line"><span class="comment">	 * 跨域请求支持</span></div><div class="line"><span class="comment">	 */</span></div><div class="line">	<span class="meta">@Bean</span></div><div class="line">	<span class="function"><span class="keyword">public</span> WebMvcConfigurer <span class="title">corsConfigurer</span><span class="params">()</span> </span>&#123;</div><div class="line">		<span class="keyword">return</span> <span class="keyword">new</span> WebMvcConfigurerAdapter() &#123;</div><div class="line">			<span class="meta">@Override</span></div><div class="line">			<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addCorsMappings</span><span class="params">(CorsRegistry registry)</span> </span>&#123;</div><div class="line">				registry.addMapping(<span class="string">"/**"</span>).allowedOrigins(<span class="string">"*"</span>)</div><div class="line">						.allowedMethods(<span class="string">"*"</span>).allowedHeaders(<span class="string">"*"</span>)</div><div class="line">						.allowCredentials(<span class="keyword">true</span>)</div><div class="line">						.exposedHeaders(HttpHeaders.SET_COOKIE).maxAge(<span class="number">3600L</span>);</div><div class="line">			&#125;</div><div class="line">		&#125;;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure><br>2、前端ajax post请求时添加xhrFields: {  withCredentials: true  }<br><figure class="highlight accesslog"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">$.ajax(&#123;</div><div class="line">	type:<span class="string">"<span class="keyword">POST</span>"</span>,</div><div class="line">	url:<span class="string">""</span>,</div><div class="line">	data:&#123;&#125;,</div><div class="line">	crossDomain:true,</div><div class="line">       xhrFields: &#123;  withCredentials: true  &#125;,</div><div class="line">	success:function(data)&#123;</div><div class="line">		</div><div class="line">	&#125;,</div><div class="line">	error:function(data)&#123;</div><div class="line">		</div><div class="line">	&#125;</div><div class="line">&#125;)</div></pre></td></tr></table></figure><br>3、检查权限控制代码，看是否有特殊处理的地方，未添加跨域支持。如上文所提，登录拦截直接通过response写回未登录提示；<br>使用spring-security框架时也要添加特殊配置，如下：<br><figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@EnableWebSecurity</span></div><div class="line">public <span class="class"><span class="keyword">class</span> <span class="title">WebSecurityConfig</span> <span class="keyword">extends</span> <span class="title">WebSecurityConfigurerAdapter</span> </span>&#123;</div><div class="line"></div><div class="line">	<span class="meta">@Override</span></div><div class="line">	<span class="keyword">protected</span> void configure(<span class="type">HttpSecurity</span> http) <span class="keyword">throws</span> <span class="type">Exception</span> &#123;</div><div class="line">		http.cors().and()...</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>    </p>
+<blockquote>
+<p>解决跨域的本质就是在返回头内添加Access-Control-Allow-Origin，实现方式有多种，spring体系内解决跨域可参考<a href="https://spring.io/blog/2015/06/08/cors-support-in-spring-framework" target="_blank" rel="external">CORS support in Spring Framework</a>,很全面的介绍了各种场景。使用权限框架时，要注意权限框架本身的CORS支持。</p>
+</blockquote>
+
+            <div class="article-copyright">
+  <i class="fa fa-lightbulb-o"></i>本文由 <a href="http://www.onecoderspace.com/2017/09/26/spring-boot项目实战：跨域/index.html">足迹|成长之路</a> 创作，采用
+  <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 进行许可。
+  可自由转载、引用，但需署名作者且注明文章出处。本文链接为<a href="http://www.onecoderspace.com/2017/09/26/spring-boot项目实战：跨域/" target="_blank" rel="external">http://www.onecoderspace.com/2017/09/26/spring-boot项目实战：跨域/</a>
+</div>
+
+            <div class="article-dashang">
+  <span>如果您觉得文章不错,可以请我喝一杯咖啡！</span><br/>
+  <a id="btn_donate" class="btn_donate" target="_self" href="javascript:;" title="Donate 打赏"></a>
+  <div id="dim-codes" hidden="hidden">
+    <ul class="img_box_ul">
+      <li><img src="/css/images/weixin.png" /></li>
+      <li><img src="/css/images/zhifubao.png" /></li>
+    </ul>
+  </div>
+</div>
+<script type="text/javascript">
+    $('#btn_donate').click(function(){
+      $('#dim-codes').toggle(300);
+    })
+</script>
+
+        
+        </div>
+        <footer class="article-footer">
+
+            
+    
+        <a href="http://www.onecoderspace.com/2017/09/26/spring-boot项目实战：跨域/#comments" class="article-comment-link">评论</a>
+    
+
+
+            <div class="share-container">
+
+    <div class="jiathis_style">
+    <span class="jiathis_txt">分享到：</span>
+    <a class="jiathis_button_qzone">QQ空间</a>
+    <a class="jiathis_button_tsina">新浪微博</a>
+    <a class="jiathis_button_tqq">腾讯微博</a>
+    <a class="jiathis_button_weixin">微信</a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a>
+    <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<style>
+    .jiathis_style div:first-child:not(.jiadiv_01) {
+        width: auto !important;
+        border: none !important;
+    }
+    .jiathis_style .jiadiv_01 {
+        margin: 10px 0;
+        border-radius: 4px;
+        border: #e1e1e1 solid 1px;
+    }
+    .jiathis_style .jiadiv_01 div:first-child {
+        display: none;
+    }
+    .jiathis_style .jiadiv_02 {
+        padding: 7px 0 !important;
+    }
+    .jiathis_style .jiadiv_02 .jiatitle {
+        width: 85px;
+        border: none;
+        height: auto;
+        margin: 3px 10px;
+        padding: 6px 10px;
+        border-radius: 4px;
+    }
+    .jiathis_style .jiadiv_02 .jiatitle:hover {
+        border: none;
+    }
+    .jiathis_style .jiadiv_02 .jiatitle:nth-child(even) {
+        margin-left: 0;
+    }
+    .jiathis_style .jtico:hover {
+        opacity: 1;
+    }
+    .jiathis_style .ckepopBottom,
+    .jiathis_style .centerBottom {
+        width: auto !important;
+        padding: 5px;
+        background: #f7f7f7;
+    }
+</style>
+
+
+
+
+</div>
+
+        </footer>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2017/09/26/前端实战：详情页返回列表内容缓存及定位实现/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">上一篇</strong>
+            <div class="article-nav-title">
+                
+                    前端实战：详情页返回列表内容缓存及定位实现
+                
+            </div>
+        </a>
+    
+    
+        <a href="/2017/09/26/sprign-boot项目实战：日志/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">下一篇</strong>
+            <div class="article-nav-title">sprign boot项目实战：日志</div>
+        </a>
+    
+</nav>
+
+
+    
+</article>
+
+
+    
+    <section id="comments">
+    
+        
+    <div id="uyan_frame"></div>
+
+    
+    </section>
+
+
+
+</section>
+            
+                <aside id="sidebar">
+   
+        <div class="widget-wrap">
+        <h3 class="widget-title">公告</h3>
+        <div class="widget">
+            <div class="card-front animated col s12 m12 l8 offset-l2 fadeInUp">
+                <p class="board">
+                    您好，您是第<span id="busuanzi_value_site_uv"></span>位访客<br>
+                    602361158<br>
+                    微信：sky602361158<br>
+                    邮箱：q7322068@126.com<br><br>
+                    欢迎交流与分享经验!</p>
+            </div>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">分类</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/java实战/">java实战</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/spring-boot实战/">spring boot实战</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/">前端</a><span class="category-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">归档</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a><span class="archive-list-count">5</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">标签云</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/CORS/" style="font-size: 20px;">CORS</a> <a href="/tags/CSRF/" style="font-size: 10px;">CSRF</a> <a href="/tags/JPA/" style="font-size: 10px;">JPA</a> <a href="/tags/ajax-post跨域/" style="font-size: 10px;">ajax post跨域</a> <a href="/tags/html生成页面无法滚动/" style="font-size: 10px;">html生成页面无法滚动</a> <a href="/tags/java实战-spirng-boot-项目高效开发-自动构建-代码生成/" style="font-size: 10px;">java实战 spirng-boot 项目高效开发 自动构建 代码生成</a> <a href="/tags/redis/" style="font-size: 10px;">redis</a> <a href="/tags/shiro/" style="font-size: 10px;">shiro</a> <a href="/tags/spring-boot/" style="font-size: 20px;">spring boot</a> <a href="/tags/spring-profile/" style="font-size: 10px;">spring profile</a> <a href="/tags/spring-boot实战/" style="font-size: 10px;">spring-boot实战</a> <a href="/tags/spring-session/" style="font-size: 10px;">spring-session</a> <a href="/tags/web基础框架/" style="font-size: 10px;">web基础框架</a> <a href="/tags/xss/" style="font-size: 10px;">xss</a> <a href="/tags/事务/" style="font-size: 10px;">事务</a> <a href="/tags/分布式锁/" style="font-size: 10px;">分布式锁</a> <a href="/tags/列表数据缓存/" style="font-size: 10px;">列表数据缓存</a> <a href="/tags/前端/" style="font-size: 10px;">前端</a> <a href="/tags/安全/" style="font-size: 10px;">安全</a> <a href="/tags/异常/" style="font-size: 10px;">异常</a> <a href="/tags/接口文档/" style="font-size: 10px;">接口文档</a> <a href="/tags/日志/" style="font-size: 20px;">日志</a> <a href="/tags/权限控制/" style="font-size: 10px;">权限控制</a> <a href="/tags/缓存/" style="font-size: 10px;">缓存</a> <a href="/tags/详情页返回列表无刷新/" style="font-size: 10px;">详情页返回列表无刷新</a> <a href="/tags/跨域/" style="font-size: 10px;">跨域</a> <a href="/tags/跨域支持/" style="font-size: 10px;">跨域支持</a>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">链接</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="http://itmuch.com" target="_blank">周立</a>
+                    </li>
+                
+                    <li>
+                        <a href="http://blog.didispace.com" target="_blank">程序猿DD</a>
+                    </li>
+                
+                    <li>
+                        <a href="http://edisonxu.org" target="_blank">EdisonXu</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+
+            
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            &copy; 2017 杨文魁<br>
+            本站总访问量<span id="busuanzi_value_site_pv"></span>次<br>
+            Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>.
+        </div>
+    </div>
+</footer>
+
+        
+    
+    <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=2144705"></script>
+
+
+
+    
+      <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+        <script src="/vendor/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/vendor/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/vendor/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/vendor/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/vendor/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/vendor/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/vendor/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/vendor/lightgallery/js/lg-share.min.js"></script>
+        <script src="/vendor/lightgallery/js/lg-video.min.js"></script>
+    
+    
+
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>
+</html>

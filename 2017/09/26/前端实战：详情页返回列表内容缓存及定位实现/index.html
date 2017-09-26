@@ -3,20 +3,20 @@
 <head>
     <meta charset="utf-8">
     
-    <title>web项目高效开发 | 足迹|成长之路</title>
+    <title>前端实战：详情页返回列表内容缓存及定位实现 | 足迹|成长之路</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="从事开发工作五年多，参与、带的项目几十个，中间也思考过怎么提高项目的开发速度和质量，也陆续尝试了一些方法，最近稍有空闲，就系统梳理、自我总结一把，主要有以下几点：    理清需求再动手，不要后期需求变更、代码补丁打的自己酸爽无比 减少模板代码的copy开发，能自动生成的自动生成  提取自己公司的模板项目，配合代码生成器生成40%以上的模板代码   生成规范可用的文档，减少文档维护工作   自动构建">
-<meta name="keywords" content="java实战 spirng-boot 项目高效开发 自动构建 代码生成">
+    <meta name="description" content="实现目标当前浏览到第N页，点击某一个新闻，进入新闻详情页，点击返回时，列表数据不重新加载，焦点仍定位在进入详情页之前的位置。">
+<meta name="keywords" content="前端,列表数据缓存,详情页返回列表无刷新,html生成页面无法滚动">
 <meta property="og:type" content="article">
-<meta property="og:title" content="web项目高效开发">
-<meta property="og:url" content="http://www.onecoderspace.com/2017/09/24/高效开发/index.html">
+<meta property="og:title" content="前端实战：详情页返回列表内容缓存及定位实现">
+<meta property="og:url" content="http://www.onecoderspace.com/2017/09/26/前端实战：详情页返回列表内容缓存及定位实现/index.html">
 <meta property="og:site_name" content="足迹|成长之路">
-<meta property="og:description" content="从事开发工作五年多，参与、带的项目几十个，中间也思考过怎么提高项目的开发速度和质量，也陆续尝试了一些方法，最近稍有空闲，就系统梳理、自我总结一把，主要有以下几点：    理清需求再动手，不要后期需求变更、代码补丁打的自己酸爽无比 减少模板代码的copy开发，能自动生成的自动生成  提取自己公司的模板项目，配合代码生成器生成40%以上的模板代码   生成规范可用的文档，减少文档维护工作   自动构建">
+<meta property="og:description" content="实现目标当前浏览到第N页，点击某一个新闻，进入新闻详情页，点击返回时，列表数据不重新加载，焦点仍定位在进入详情页之前的位置。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2017-09-24T13:23:10.000Z">
+<meta property="og:updated_time" content="2017-09-26T13:07:50.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="web项目高效开发">
-<meta name="twitter:description" content="从事开发工作五年多，参与、带的项目几十个，中间也思考过怎么提高项目的开发速度和质量，也陆续尝试了一些方法，最近稍有空闲，就系统梳理、自我总结一把，主要有以下几点：    理清需求再动手，不要后期需求变更、代码补丁打的自己酸爽无比 减少模板代码的copy开发，能自动生成的自动生成  提取自己公司的模板项目，配合代码生成器生成40%以上的模板代码   生成规范可用的文档，减少文档维护工作   自动构建">
+<meta name="twitter:title" content="前端实战：详情页返回列表内容缓存及定位实现">
+<meta name="twitter:description" content="实现目标当前浏览到第N页，点击某一个新闻，进入新闻详情页，点击返回时，列表数据不重新加载，焦点仍定位在进入详情页之前的位置。">
     
 
     
@@ -195,7 +195,7 @@
 </aside>
 
             
-            <section id="main"><article id="post-高效开发" class="article article-type-post" itemscope itemprop="blogPost">
+            <section id="main"><article id="post-前端实战：详情页返回列表内容缓存及定位实现" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
         
@@ -203,7 +203,7 @@
                 
     
         <h1 class="article-title" itemprop="name">
-            web项目高效开发
+            前端实战：详情页返回列表内容缓存及定位实现
         </h1>
     
 
@@ -212,8 +212,8 @@
                         
     <div class="article-date">
         <i class="fa fa-calendar"></i>
-        <a href="/2017/09/24/高效开发/">
-            <time datetime="2017-09-24T06:26:20.000Z" itemprop="datePublished">2017-09-24</time>
+        <a href="/2017/09/26/前端实战：详情页返回列表内容缓存及定位实现/">
+            <time datetime="2017-09-26T12:45:21.000Z" itemprop="datePublished">2017-09-26</time>
         </a>
     </div>
 
@@ -221,13 +221,13 @@
                         
     <div class="article-category">
     	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/java实战/">java实战</a>
+        <a class="article-category-link" href="/categories/前端/">前端</a>
     </div>
 
                         
     <!--<div class="article-tag">-->
         <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/java实战-spirng-boot-项目高效开发-自动构建-代码生成/">java实战 spirng-boot 项目高效开发 自动构建 代码生成</a>
+        <a class="tag-link" href="/tags/html生成页面无法滚动/">html生成页面无法滚动</a>, <a class="tag-link" href="/tags/列表数据缓存/">列表数据缓存</a>, <a class="tag-link" href="/tags/前端/">前端</a>, <a class="tag-link" href="/tags/详情页返回列表无刷新/">详情页返回列表无刷新</a>
     <!--</div>-->
 
 
@@ -244,44 +244,46 @@
         <div class="article-entry" itemprop="articleBody">
         
             
-            <p>从事开发工作五年多，参与、带的项目几十个，中间也思考过怎么提高项目的开发速度和质量，也陆续尝试了一些方法，最近稍有空闲，就系统梳理、自我总结一把，主要有以下几点：  </p>
-<ul>
-<li>理清需求再动手，不要后期需求变更、代码补丁打的自己酸爽无比</li>
-<li>减少模板代码的copy开发，能自动生成的自动生成 </li>
-<li>提取自己公司的模板项目，配合代码生成器生成40%以上的模板代码  </li>
-<li>生成规范可用的文档，减少文档维护工作  </li>
-<li>自动构建部署项目</li>
-<li>规范日志，提升运维效率<br>思路就是“通用的东西进行提取，能自动生成的东西自动生成，让程序员专心写业务代码”。    <a id="more"></a>
-</li>
-</ul>
-<h1 id="1、理清需求"><a href="#1、理清需求" class="headerlink" title="1、理清需求"></a>1、理清需求</h1><p>功能点多，技术难度大对程序员来说正常，加班干活也没啥怨言，完成了心中还有点成就感，但几个功能点翻来覆去的调整个三五次，那90%的人估计都已经在心里问候项目经理了。<br>有些需求变更是难免的，但更多的是可以通过合适的管理、设计来避免的，特别是小公司的技术负责人（如我）更应该注意”想清楚要做什么比立马思考怎么做更重要“，你在开始设计时跑偏一些，忘记一些，就意味着之后的某个时间团队集体狼狈的加班，这里有几点小经验分享给大军：  </p>
-<ul>
-<li>认真阅读需求文档，在心里构画出整个网站的全景图，任何一个分支小道都不忽视</li>
-<li>提出问题，让需求人员想的更多一点</li>
-<li>自己将对需求的认识向需求+团队成员讲一遍</li>
-<li>负责某一模块的团队成员复述一下对需求的认识</li>
-</ul>
-<h1 id="2、项目模板"><a href="#2、项目模板" class="headerlink" title="2、项目模板"></a>2、项目模板</h1><p>项目内有很多底层通用的东西，特别是一个公司内容的项目，不同项目间共性的东西更多，很多时候开发也是copy一个项目，把原来的业务功能删减，有类似功能的再从不同项目里copy过来。这种情况将共性代码提出为一个base项目，后续项目都直接在base项目的基础上开发，明显会更舒爽很多。<br>目前使用spring-boot搭建了一个后端web接口开发的模板项目，后续也会在《spring boot项目实战》系列文章进行分享。</p>
-<h1 id="3、代码生成"><a href="#3、代码生成" class="headerlink" title="3、代码生成"></a>3、代码生成</h1><p>代码生成器的原理就是读取表结构，生成对应的模板代码，所以开发一个项目先进行数据库设计。<br><strong>一、数据库设计</strong><br>有段时间设计数据库使用excel，后面发现修改、维护、查看都不怎么方便，现在在使用免费的workbench进行数据库设计，软件操作还算顺手，能够简单的体现模块、表之间的关系。在这方面根据个人感觉，用着顺手就行，建议使用专业的软件，excel之类的从效果上来说的确有一定的差距。建议每个字段都设置好注释，字段命名多个单词用下划线分割。</p>
-<p><strong>二、代码生成器</strong><br>本人开发了一个代码生成器，功能有：  </p>
-<ol>
-<li>生成指定数据库内所有表对应的模板代码（实体、dao、service、controller）</li>
-<li>生成指定数据库内指定表对应的模板代码（实体、dao、service、controller）<br>原理是通过sql查询数据内有哪些数据库，数据库内有哪些表，表里面的字段信息，然后通过freemarker来生成模板代码，如有需要可根据该项目调整对应的模板生成自己公司的代码。<br>GitHub: <a href="https://github.com/q7322068/code-generation" target="_blank">https://github.com/q7322068/code-generation</a></li>
+            <h2 id="实现目标"><a href="#实现目标" class="headerlink" title="实现目标"></a>实现目标</h2><p>当前浏览到第N页，点击某一个新闻，进入新闻详情页，点击返回时，列表数据不重新加载，焦点仍定位在进入详情页之前的位置。<br><a id="more"></a></p>
+<h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><ol>
+<li>缓存列表内已展示的数据；</li>
+<li>进入详情页时在缓存内添加该新闻的ID（键为articleId）；</li>
+<li>返回时在js内判断缓存内是否包含articleId，如果存在，则通过缓存的列表数据进行页面渲染；</li>
+<li>通过articleId定位元素，滚动窗口值该元素处；</li>
+<li>缓存不能始终存在。</li>
 </ol>
-<h1 id="4、在线文档生成"><a href="#4、在线文档生成" class="headerlink" title="4、在线文档生成"></a>4、在线文档生成</h1><p>公司项目是前后端分离的架构，刚开始都是通过excel来提供接口文档给前端，后来维护起来实在是太麻烦，调整了就要改excel，多个人维护起来，很快就乱套了，后来决定使用swagger2来构建在线api文档，以代码的形式来维护，代码调整时添加上指定格式的注释就能自动生成接口文档，前端通过在线文档来查看，配合起来更舒服。<br>使用请参考：<br><a href="http://blog.didispace.com/springbootswagger2/" target="_blank" rel="external">Spring Boot中使用Swagger2构建强大的RESTful API文档</a><br><a href="http://blog.didispace.com/spring-boot-starter-swagger-1.1.0/" target="_blank" rel="external">简化Swagger使用的自制Starter：spring-boot-starter-swagger，欢迎使用和吐槽</a><br><a href="http://blog.didispace.com/spring-boot-starter-swagger-1.3.0/" target="_blank" rel="external">spring-boot-starter-swagger 1.3.0.RELEASE：新增对JSR-303的支持和host的配置</a></p>
-<h1 id="5、自动构建"><a href="#5、自动构建" class="headerlink" title="5、自动构建"></a>5、自动构建</h1><p>代码开发好了，总是要在服务器上部署运行的，我现在的公司采用Jenkins来完成自动打包部署，提交svn代码，Jenkins自动打包（支持war包、jar包）部署至测试环境，预发布环境和正式环境基于测试环境的代码进行发布（通过脚本进行发布，实际上就是遍历某个文件夹下的文件，选择后进行copy）。</p>
-<h1 id="6、日志很重要"><a href="#6、日志很重要" class="headerlink" title="6、日志很重要"></a>6、日志很重要</h1><p>刚到现在公司的时候，接手的项目日志千奇百怪，有打印到控制台的，有日志未生效的，有自己写到某个文件的（你没看错），加上项目文档严重缺失，有过类似体验的兄弟知道是啥感觉。所以抽取基础项目时直接定好日志规范，在规定目录下生成日志，日志完备了，日常运维也就简单了。</p>
-<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><ul>
-<li>提取一套基础框架，把该有的组件、工具类都放进去</li>
-<li>设计数据库、代码生成，这样model、dao、service、controller都有了，注意啊比较完备的在线注释已经存在了^_^</li>
-<li>使用Jenkins自动构建发布，部署项目再也不需要自己上去svn up，ps,kill等一系列操作了；</li>
-<li>日志很重要很重要，没日志的日子很难过滴<br>希望这篇文章能诱发点你的“懒病”，每天只写“爽”的代码，想要懒就只能先勤快，为你的开发打造点顺手的武器吧。</li>
+<p>根据当前项目情况，考虑缓存放入sessionStorage，滚动窗口使用IScroll。</p>
+<h2 id="实现方案"><a href="#实现方案" class="headerlink" title="实现方案"></a>实现方案</h2><p>1、缓存列表数据  </p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//cacheKey 缓存key  cacheValue 缓存内容json结构  position 值为before和after分别用于加载最新和加载下一页 </span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">addToCache</span>(<span class="params">cacheKey,cacheValue,position</span>)</span>&#123;</div><div class="line">   	cacheValue = <span class="built_in">JSON</span>.stringify(cacheValue);</div><div class="line">   	<span class="keyword">var</span> allCacheData = sessionStorage.getItem(cacheKey);</div><div class="line">   	<span class="keyword">if</span>(allCacheData != <span class="literal">null</span>)&#123;</div><div class="line">   		<span class="keyword">if</span>(position == <span class="string">"before"</span>)&#123;</div><div class="line">   			allCacheData = cacheValue + <span class="string">"::::"</span> +allCacheData;</div><div class="line">   		&#125; <span class="keyword">else</span> &#123;</div><div class="line">   			allCacheData = allCacheData + <span class="string">"::::"</span> + cacheValue;</div><div class="line">   		&#125;</div><div class="line">   	&#125; <span class="keyword">else</span> &#123;</div><div class="line">   		allCacheData = cacheValue;</div><div class="line">   	&#125;</div><div class="line">   	sessionStorage.setItem(cacheKey,allCacheData);    	</div><div class="line">   &#125;  </div></pre></td></tr></table></figure>
+<ul>
+<li>sessionStorage只能存储字符串，需要将json结构的对象转为字符串进行存储</li>
+<li>如果列表数据特别多，应该和业务确认缓存数据条数，截取仅是字符串操作，这里不再展开</li>
 </ul>
+<p>2、进入详情页<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$(<span class="string">".article"</span>).click(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;     </div><div class="line">     sessionStorage.setItem(<span class="string">"articleId"</span>,$(<span class="keyword">this</span>).attr(<span class="string">"id"</span>));</div><div class="line">   &#125;)  </div></pre></td></tr></table></figure></p>
+<ul>
+<li>在每条新闻上绑定事件，点击时设置文章ID至缓存，正常来说在详情页设置，但是因为这个项目内的详情页不是我们部门的，所以只能在列表页设置；</li>
+</ul>
+<p>3、返回时列表内js判断是从详情页返回的还是一次新的访问<br><figure class="highlight lasso"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">var</span> articleId = sessionStorage.getItem(<span class="string">"articleId"</span>);</div><div class="line">   <span class="built_in">var</span> cacheData = sessionStorage.getItem($scope.initType);</div><div class="line">   <span class="keyword">if</span>(articleId != <span class="built_in">null</span> &amp;&amp; cacheData != <span class="built_in">null</span>)&#123; <span class="comment">//从详情页返回且列表缓存数据不为空</span></div><div class="line">   	showTableDataWithCache(cacheData,articleId);</div><div class="line">   	removeCache(<span class="string">"articleId"</span>);<span class="comment">//注意使用一次就清理掉</span></div><div class="line">   &#125;<span class="keyword">else</span> &#123; <span class="comment">//一次新的访问，要清理掉所有相关缓存</span></div><div class="line">   	removeAllFuturesCache();</div><div class="line">   	loadPage(<span class="number">1</span>);</div><div class="line">   &#125;</div></pre></td></tr></table></figure><br>4、定位至对应元素<br><figure class="highlight yaml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="string">//注意IScroll需要重新初始化</span></div><div class="line"><span class="string">myScroll</span> <span class="string">=</span> <span class="string">new</span> <span class="string">IScroll('#wrapper',</span> <span class="string">&#123;</span></div><div class="line"><span class="attr">    probeType:</span> <span class="number">3</span><span class="string">,</span></div><div class="line"><span class="attr">    disableMouse:</span> <span class="literal">true</span><span class="string">,</span></div><div class="line"><span class="attr">    momentum:</span> <span class="literal">true</span><span class="string">,</span></div><div class="line"><span class="attr">    mouseWheel:</span> <span class="literal">true</span><span class="string">,</span></div><div class="line"><span class="attr">    disablePointer:</span> <span class="literal">true</span><span class="string">,</span></div><div class="line"><span class="attr">    click:</span> <span class="literal">true</span><span class="string">,</span></div><div class="line"><span class="attr">    tap:</span> <span class="literal">true</span><span class="string">,</span></div><div class="line"><span class="attr">    resizePolling:</span> <span class="number">1</span><span class="string">,</span></div><div class="line">    <span class="string">//</span> <span class="string">x</span></div><div class="line">  <span class="string">&#125;);</span></div><div class="line"></div><div class="line"><span class="string">//滚动至对应元素</span></div><div class="line"><span class="string">myScroll.scrollToElement(document.querySelector("[id='"+detailArticleId+"']"),10,true,true);</span></div><div class="line"><span class="string">initScroll();</span></div><div class="line"><span class="string">myScroll.refresh();</span>  </div></pre></td></tr></table></figure></p>
+<ul>
+<li>注意IScroll需要重新初始化;</li>
+<li>scrollToElement的选择器格式是[id=’articleId’]而不是正常的”#articleId”;10 是动画时间   true  true这样设置会将元素显示在窗口中间；</li>
+</ul>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ol>
+<li>sessionStorage是单个窗口级的缓存，同一个窗口内的数据可缓存在其内；</li>
+<li>IScroll可以作为页面滚动的组件；</li>
+<li>详情页返回列表不刷新问题可以分解为三个小问题：  <ol>
+<li>缓存列表数据</li>
+<li>添加从详情页返回的标记（文章详情ID）</li>
+<li>用缓存数据渲染页面后滚动窗口至对应元素<br>通过sessionStorage存储数据，这样很多功能都可以实现，比如返回时标签选中等都是一样的思路，进入详情页时设置对应值，在页面加载时判断对应的缓存数据是否存在进而展开业务，这里不再展开。 </li>
+</ol>
+</li>
+</ol>
+<p>参考：<br><a href="http://www.cnblogs.com/yuzhongwusan/archive/2011/12/19/2293347.html" target="_blank" rel="external">sessionStorage介绍</a><br><a href="http://blog.csdn.net/liangklfang/article/details/52804915" target="_blank" rel="external">IScroll使用</a>  </p>
 
             <div class="article-copyright">
-  <i class="fa fa-lightbulb-o"></i>本文由 <a href="http://www.onecoderspace.com/2017/09/24/高效开发/index.html">足迹|成长之路</a> 创作，采用
+  <i class="fa fa-lightbulb-o"></i>本文由 <a href="http://www.onecoderspace.com/2017/09/26/前端实战：详情页返回列表内容缓存及定位实现/index.html">足迹|成长之路</a> 创作，采用
   <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 进行许可。
-  可自由转载、引用，但需署名作者且注明文章出处。本文链接为<a href="http://www.onecoderspace.com/2017/09/24/高效开发/" target="_blank" rel="external">http://www.onecoderspace.com/2017/09/24/高效开发/</a>
+  可自由转载、引用，但需署名作者且注明文章出处。本文链接为<a href="http://www.onecoderspace.com/2017/09/26/前端实战：详情页返回列表内容缓存及定位实现/" target="_blank" rel="external">http://www.onecoderspace.com/2017/09/26/前端实战：详情页返回列表内容缓存及定位实现/</a>
 </div>
 
             <div class="article-dashang">
@@ -306,7 +308,7 @@
 
             
     
-        <a href="http://www.onecoderspace.com/2017/09/24/高效开发/#comments" class="article-comment-link">评论</a>
+        <a href="http://www.onecoderspace.com/2017/09/26/前端实战：详情页返回列表内容缓存及定位实现/#comments" class="article-comment-link">评论</a>
     
 
 
@@ -374,15 +376,11 @@
         
 <nav id="article-nav">
     
-        <a href="/2017/09/25/spring-boot项目实战：目录/" id="article-nav-newer" class="article-nav-link-wrap">
-            <strong class="article-nav-caption">上一篇</strong>
-            <div class="article-nav-title">
-                
-                    spring boot实战
-                
-            </div>
-        </a>
     
+        <a href="/2017/09/26/spring-boot项目实战：跨域/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">下一篇</strong>
+            <div class="article-nav-title">spring boot项目实战：跨域问题解决</div>
+        </a>
     
 </nav>
 
