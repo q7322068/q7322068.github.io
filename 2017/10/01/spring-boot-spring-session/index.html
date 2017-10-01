@@ -13,7 +13,7 @@
 <meta property="og:site_name" content="足迹|成长之路">
 <meta property="og:description" content="在工作中会遇到以下几个场景：    发布新功能或修复bug，服务重启，用户需要重新登录   当集群内某个节点失效时，用户明明刚登录，仍被提示需要重新登录那如何做到服务发布、集群节点失效对用户无感知呢？有以下几种方式：   使用cookie保存用户状态信息   session同步法（多个web-server之间相互同步session） 后端统一存储（如：redis）">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2017-10-01T11:03:04.000Z">
+<meta property="og:updated_time" content="2017-10-01T12:38:41.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="spring-boot实战：共享session">
 <meta name="twitter:description" content="在工作中会遇到以下几个场景：    发布新功能或修复bug，服务重启，用户需要重新登录   当集群内某个节点失效时，用户明明刚登录，仍被提示需要重新登录那如何做到服务发布、集群节点失效对用户无感知呢？有以下几种方式：   使用cookie保存用户状态信息   session同步法（多个web-server之间相互同步session） 后端统一存储（如：redis）">
@@ -264,7 +264,7 @@
 <li>redisNamespace用于区分不同的项目，如果多个项目共用用户数据，可以采用相同的值，这样就简单的实现了统一登录效果</li>
 </ul>
 <p>要提醒的一点是如果用户数据特别大，需要注意redis容量规范及数据库规范，尽量保证缓存键分类存储在不同的库内，如用户session数据存储在数据库1内，业务缓存存储在0内，以此类推。</p>
-<p>本文为《spring boot项目实战》系列之共享内存实现方式，系列文章持续更新，另外，本人搭建好的spring boot web后端开发框架已上传至GitHub，欢迎吐槽！<br><a href="https://github.com/q7322068/rest-base" target="_blank">https://github.com/q7322068/rest-base</a>,已用于多个正式项目，当前可能因为版本问题不是很完善，后续持续优化，希望你能有所收获！</p>
+<p>本人搭建好的spring boot web后端开发框架已上传至GitHub，欢迎吐槽！<br><a href="https://github.com/q7322068/rest-base" target="_blank">https://github.com/q7322068/rest-base</a>,已用于多个正式项目，当前可能因为版本问题不是很完善，后续持续优化，希望你能有所收获！</p>
 
             <div class="article-copyright">
   <i class="fa fa-lightbulb-o"></i>本文由 <a href="http://www.onecoderspace.com/2017/10/01/spring-boot-spring-session/index.html">足迹|成长之路</a> 创作，采用
