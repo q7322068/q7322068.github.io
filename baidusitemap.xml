@@ -4,6 +4,45 @@
 
     
   <url>
+    <loc>http://www.onecoderspace.com/2017/10/03/spring-boot-jpa/</loc>
+    <lastmod>2017-10-03T13:35:39.000Z</lastmod>
+    <data>
+        <display>
+        <title>spring boot项目实战：JPA</title>
+        <pubTime>2017-10-03T05:45:38.000Z</pubTime>
+        
+        <tag>spring boot</tag>
+         
+        <tag>JPA</tag>
+         
+         
+           
+             
+              <breadCrumb title="spring boot实战" url="http://www.onecoderspace.com/categories/spring-boot%E5%AE%9E%E6%88%98/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.onecoderspace.com/2017/10/03/git-simple/</loc>
+    <lastmod>2017-10-03T03:53:41.000Z</lastmod>
+    <data>
+        <display>
+        <title>git最简教程</title>
+        <pubTime>2017-10-03T03:11:35.000Z</pubTime>
+        
+        <tag>git</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://www.onecoderspace.com/2017/10/02/spring-boot-shiro/</loc>
     <lastmod>2017-10-02T07:37:43.000Z</lastmod>
     <data>
@@ -37,6 +76,8 @@
         
         <tag>CORS</tag>
          
+        <tag>JPA</tag>
+         
         <tag>日志</tag>
          
         <tag>redis</tag>
@@ -66,8 +107,6 @@
         <tag>CSRF</tag>
          
         <tag>缓存</tag>
-         
-        <tag>JPA</tag>
          
         <tag>分布式锁</tag>
          
