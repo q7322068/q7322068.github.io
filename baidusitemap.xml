@@ -5,7 +5,7 @@
     
   <url>
     <loc>http://www.onecoderspace.com/2017/10/03/spring-boot-jpa/</loc>
-    <lastmod>2017-10-03T13:35:39.000Z</lastmod>
+    <lastmod>2017-10-03T13:46:28.000Z</lastmod>
     <data>
         <display>
         <title>spring boot项目实战：JPA</title>
@@ -82,11 +82,11 @@
          
         <tag>redis</tag>
          
+        <tag>spring-session</tag>
+         
         <tag>shiro</tag>
          
         <tag>权限控制</tag>
-         
-        <tag>spring-session</tag>
          
         <tag>事务</tag>
          

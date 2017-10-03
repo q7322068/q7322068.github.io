@@ -13,7 +13,7 @@
 <meta property="og:site_name" content="足迹|成长之路">
 <meta property="og:description" content="公司的项目中很大一部分属于内部平台，所以对性能的要求没有那么高，开发速度反而更重要，因此在搭建基础框架时选择使用JPA，没有使用mybitis，当然其中也有一部分原因是之前一直使用hibernate，对mybitis不太熟悉^_^。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2017-10-03T13:35:39.000Z">
+<meta property="og:updated_time" content="2017-10-03T13:46:28.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="spring boot项目实战：JPA">
 <meta name="twitter:description" content="公司的项目中很大一部分属于内部平台，所以对性能的要求没有那么高，开发速度反而更重要，因此在搭建基础框架时选择使用JPA，没有使用mybitis，当然其中也有一部分原因是之前一直使用hibernate，对mybitis不太熟悉^_^。">
@@ -291,8 +291,8 @@
 <li>配置JPA很简单，添加maven依赖，配置数据库连接信息，dao继承上层类即可在service内注入dao，进行crud等操作</li>
 <li>JPA提供了简便的根据方法名称进行查询的方式，使用难度很低</li>
 <li>JPA通过@Query注解，支持类HQL语句查询；也可以使用原生SQL查询，只需要将nativeQuery属性设置为true即可</li>
-<li>无添加分页查询可通过自带的findAll方法即可</li>
-<li>多添加分页查询，有两种实现方式，当每个条件都是必选时，可使用@query带分页条件来实现；当有可选条件时，需要使用Specification来实现</li>
+<li>无条件分页查询可通过自带的findAll方法即可</li>
+<li>多条件分页查询，有两种实现方式，当每个条件都是必选时，可使用@query带分页条件来实现；当有可选条件时，需要使用Specification来实现</li>
 <li>为了简化常见的多个可选条件分页查询的代码，在service层提供了一个上层方法，以map的方式设置查询条件，大部分情况下不需要程序员再关注Specification的语法，降低使用难度</li>
 </ol>
 <p>本人搭建好的spring boot web后端开发框架已上传至GitHub，欢迎吐槽！<br><a href="https://github.com/q7322068/rest-base" target="_blank">https://github.com/q7322068/rest-base</a>,已用于多个正式项目，当前可能因为版本问题不是很完善，后续持续优化，希望你能有所收获！</p>
