@@ -4,8 +4,30 @@
 
     
   <url>
+    <loc>http://www.onecoderspace.com/2017/10/06/spring-boot-csrf/</loc>
+    <lastmod>2017-10-06T08:47:37.000Z</lastmod>
+    <data>
+        <display>
+        <title>spring boot实战之CSRF（跨站请求伪造）</title>
+        <pubTime>2017-10-06T06:55:47.000Z</pubTime>
+        
+        <tag>spring boot</tag>
+         
+        <tag>CSRF</tag>
+         
+         
+           
+             
+              <breadCrumb title="spring boot实战" url="http://www.onecoderspace.com/categories/spring-boot%E5%AE%9E%E6%88%98/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://www.onecoderspace.com/2017/10/06/spring-boot-xss/</loc>
-    <lastmod>2017-10-06T04:37:48.000Z</lastmod>
+    <lastmod>2017-10-06T06:54:01.000Z</lastmod>
     <data>
         <display>
         <title>spring boot实战之XSS过滤</title>
@@ -105,17 +127,19 @@
         
         <tag>CORS</tag>
          
+        <tag>CSRF</tag>
+         
         <tag>JPA</tag>
          
         <tag>日志</tag>
          
         <tag>redis</tag>
          
+        <tag>spring-session</tag>
+         
         <tag>shiro</tag>
          
         <tag>权限控制</tag>
-         
-        <tag>spring-session</tag>
          
         <tag>事务</tag>
          
@@ -132,8 +156,6 @@
         <tag>安全</tag>
          
         <tag>xss</tag>
-         
-        <tag>CSRF</tag>
          
         <tag>缓存</tag>
          
