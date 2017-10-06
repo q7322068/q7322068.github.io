@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <meta charset="utf-8">
+    
+    <title>spring boot实战之XSS过滤 | 足迹|成长之路</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="XSS攻击全称跨站脚本攻击，是为不和层叠样式表(Cascading Style Sheets, CSS)的缩写混淆，故将跨站脚本攻击缩写为XSS，XSS是一种在web应用中的计算机安全漏洞，它允许恶意web用户将代码植入到提供给其它用户使用的页面中。">
+<meta name="keywords" content="spring boot,XSS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="spring boot实战之XSS过滤">
+<meta property="og:url" content="http://www.onecoderspace.com/2017/10/06/spring-boot-xss/index.html">
+<meta property="og:site_name" content="足迹|成长之路">
+<meta property="og:description" content="XSS攻击全称跨站脚本攻击，是为不和层叠样式表(Cascading Style Sheets, CSS)的缩写混淆，故将跨站脚本攻击缩写为XSS，XSS是一种在web应用中的计算机安全漏洞，它允许恶意web用户将代码植入到提供给其它用户使用的页面中。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2017-10-06T04:37:48.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="spring boot实战之XSS过滤">
+<meta name="twitter:description" content="XSS攻击全称跨站脚本攻击，是为不和层叠样式表(Cascading Style Sheets, CSS)的缩写混淆，故将跨站脚本攻击缩写为XSS，XSS是一种在web应用中的计算机安全漏洞，它允许恶意web用户将代码植入到提供给其它用户使用的页面中。">
+    
+
+    
+        <link rel="alternate" href="/atom.xml" title="足迹|成长之路" type="application/atom+xml" />
+    
+
+    
+
+    <link rel="stylesheet" href="/vendor/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/vendor/open-sans/styles.css">
+    <link rel="stylesheet" href="/vendor/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/vendor/jquery/2.1.3/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/vendor/lightgallery/css/lightgallery.min.css">
+    
+    
+    
+    
+    
+
+
+</head>
+
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">足迹|成长之路</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/.">主页</a>
+                
+                    <a class="main-nav-link" href="/archives">归档</a>
+                
+                    <a class="main-nav-link" href="/2017/09/25/spring-boot项目实战：目录/">spring boot实战</a>
+                
+                    <a class="main-nav-link" href="/about">关于我</a>
+                
+            </nav>
+            
+                
+                <nav id="sub-nav">
+                    <div class="profile" id="profile-nav">
+                        <a id="profile-anchor" href="javascript:;">
+                            <img class="avatar" src="/css/images/avatar.jpg" />
+                            <i class="fa fa-caret-down"></i>
+                        </a>
+                    </div>
+                </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="想要查找什么..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/.">主页</a></td>
+                
+                    <td><a class="main-nav-link" href="/archives">归档</a></td>
+                
+                    <td><a class="main-nav-link" href="/2017/09/25/spring-boot项目实战：目录/">spring boot实战</a></td>
+                
+                    <td><a class="main-nav-link" href="/about">关于我</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+                
+
+<aside id="profile">
+    <div class="inner profile-inner">
+        <div class="base-info profile-block">
+            <img id="avatar" src="/css/images/avatar.jpg" />
+            <h2 id="name">杨文魁</h2>
+            <h3 id="title">本分的java web程序员，写写代码，做做架构，愿意沉下心学习新的技术，在这里分享记录学习工作中的心得</h3>
+            <span id="location"><i class="fa fa-map-marker"></i>中国 - 上海</span>
+            <a id="follow" target="_blank" href="http://www.onecoderspace.com/about">关注我</a>
+        </div>
+        <div class="article-info profile-block">
+            <div class="article-info-block">
+                16
+                <span>文章</span>
+            </div>
+            <div class="article-info-block">
+                35
+                <span>标签</span>
+            </div>
+        </div>
+        
+        <div class="profile-block social-links">
+            <table>
+                <tr>
+                    
+                    
+                    <td>
+                        <a href="https://github.com/q7322068" target="_blank" title="github" class=tooltip>
+                            <i class="fa fa-github"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="mailto:q7322068@126.com" target="_blank" title="envelope" class=tooltip>
+                            <i class="fa fa-envelope"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/css/images/myweixin.png" target="_blank" title="weixin" class=tooltip>
+                            <i class="fa fa-weixin"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/atom.xml" target="_blank" title="rss" class=tooltip>
+                            <i class="fa fa-rss"></i>
+                        </a>
+                    </td>
+                    
+                </tr>
+            </table>
+        </div>
+        
+    </div>
+</aside>
+
+            
+            <section id="main"><article id="post-spring-boot-xss" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+            spring boot实战之XSS过滤
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2017/10/06/spring-boot-xss/">
+            <time datetime="2017-10-06T03:24:25.000Z" itemprop="datePublished">2017-10-06</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/spring-boot实战/">spring boot实战</a>
+    </div>
+
+                        
+    <!--<div class="article-tag">-->
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/XSS/">XSS</a>, <a class="tag-link" href="/tags/spring-boot/">spring boot</a>
+    <!--</div>-->
+
+
+                        
+                          <span id="busuanzi_container_site_pv" style='display:none;float: right'>
+                          <i class="fa fa-eye" aria-hidden="true" style="margin-right:5px;"></i><span id="busuanzi_value_page_pv"></span>人阅读
+                        </span>
+                        
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <blockquote>
+<p>XSS攻击全称跨站脚本攻击，是为不和层叠样式表(Cascading Style Sheets, CSS)的缩写混淆，故将跨站脚本攻击缩写为XSS，XSS是一种在web应用中的计算机安全漏洞，它允许恶意web用户将代码植入到提供给其它用户使用的页面中。</p>
+</blockquote>
+<a id="more"></a>
+<p>你可以自己做个简单尝试：  </p>
+<ol>
+<li>在任何一个表单内，你输入一段简单的js代码：<code>&lt;script&gt;for(var i=0;i&lt;1000;i++){alert(&quot;弹死你&quot;+i);}&lt;/script&gt;</code>，将其存入数据库；</li>
+<li>在页面上一个div元素内直接展示第一步内存入的值，你会发现弹出框出现了；</li>
+</ol>
+<p>以上XSS攻击只算一个小恶作剧，但如果这玩意被发到了网站的首页上，我估计老板一定会因为频繁的投诉而和你来场愉快的谈话…  </p>
+<p>以上两个示例仅仅算是恶作剧，恶意用户能做的更多，如获取用户信息，进行“网络钓鱼”攻击等。  </p>
+<p>应对XSS攻击的其中一个方式就是后端对输入内容进行过滤，输入内容里面的敏感信息直接过滤，如<code>&lt;script&gt;</code>标签等，以下来说明如何在spring boot项目内方便快捷的实现XSS过滤。</p>
+<h3 id="1、Jsoup组件"><a href="#1、Jsoup组件" class="headerlink" title="1、Jsoup组件"></a>1、Jsoup组件</h3><p>Jsoup使用标签白名单的机制用来进行防止XSS攻击, 假设白名单中只允许p标签存在, 此时在一段HTML代码中, 只能存在p标签 , 其他标签将会被清除只保留被标签所包裹的内容，因此使用Jsoup组件来进行内容过滤。  </p>
+<p>添加maven依赖：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="comment">&lt;!-- xss过滤组件 --&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.jsoup<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>jsoup<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">version</span>&gt;</span>1.9.2<span class="tag">&lt;/<span class="name">version</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>JsoupUtil提供基于Jsoup过滤非法标签的工具类：<br><figure class="highlight processing"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"><span class="comment"> * xss非法标签过滤</span></div><div class="line"><span class="comment"> * &#123;@link http://www.jianshu.com/p/32abc12a175a?nomobile=yes&#125;</span></div><div class="line"><span class="comment"> */</span></div><div class="line"><span class="keyword">public</span> class JsoupUtil &#123;</div><div class="line"></div><div class="line">	<span class="comment">/**</span></div><div class="line"><span class="comment">	 * 使用自带的basicWithImages 白名单</span></div><div class="line"><span class="comment">	 * 允许的便签有a,b,blockquote,br,cite,code,dd,dl,dt,em,i,li,ol,p,pre,q,small,span,</span></div><div class="line"><span class="comment">	 * strike,strong,sub,sup,u,ul,img</span></div><div class="line"><span class="comment">	 * 以及a标签的href,img标签的src,align,alt,height,width,title属性</span></div><div class="line"><span class="comment">	 */</span></div><div class="line">	<span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Whitelist whitelist = Whitelist.basicWithImages();</div><div class="line">	<span class="comment">/** 配置过滤化参数,不对代码进行格式化 */</span></div><div class="line">	<span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Document.OutputSettings outputSettings = <span class="keyword">new</span> Document.OutputSettings().prettyPrint(<span class="keyword">false</span>);</div><div class="line">	<span class="keyword">static</span> &#123;</div><div class="line">		<span class="comment">// 富文本编辑时一些样式是使用style来进行实现的</span></div><div class="line">		<span class="comment">// 比如红色字体 style="color:red;"</span></div><div class="line">		<span class="comment">// 所以需要给所有标签添加style属性</span></div><div class="line">		whitelist.addAttributes(<span class="string">":all"</span>, <span class="string">"style"</span>);</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">String</span> clean(<span class="keyword">String</span> content) &#123;</div><div class="line">		<span class="keyword">return</span> Jsoup.clean(content, <span class="string">""</span>, whitelist, outputSettings);</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> main(<span class="keyword">String</span>[] args) <span class="keyword">throws</span> FileNotFoundException, IOException &#123;</div><div class="line">		<span class="keyword">String</span> <span class="built_in">text</span> = <span class="string">"&lt;a href=\"http://www.baidu.com/a\" onclick=\"alert(1);\"&gt;sss&lt;/a&gt;&lt;script&gt;alert(0);&lt;/script&gt;sss"</span>;</div><div class="line">		System.out.<span class="built_in">println</span>(clean(<span class="built_in">text</span>));</div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="2、创建XssHttpServletRequestWrapper"><a href="#2、创建XssHttpServletRequestWrapper" class="headerlink" title="2、创建XssHttpServletRequestWrapper"></a>2、创建XssHttpServletRequestWrapper</h3><p>这是实现XSS过滤的关键，在其内重写了getParameter，getParameterValues，getHeader等方法，对http请求内的参数进行了过滤。</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="keyword">class</span> XssHttpServletRequestWrapper <span class="keyword">extends</span> HttpServletRequestWrapper &#123;  </div><div class="line">    HttpServletRequest orgRequest = <span class="literal">null</span>;  </div><div class="line">    <span class="keyword">private</span> <span class="built_in">boolean</span> isIncludeRichText = <span class="literal">false</span>;</div><div class="line">  </div><div class="line">    <span class="keyword">public</span> XssHttpServletRequestWrapper(HttpServletRequest request, <span class="built_in">boolean</span> isIncludeRichText) &#123;  </div><div class="line">        <span class="keyword">super</span>(request);  </div><div class="line">        orgRequest = request;</div><div class="line">        <span class="keyword">this</span>.isIncludeRichText = isIncludeRichText;</div><div class="line">    &#125;  </div><div class="line">  </div><div class="line">    <span class="comment">/** </span></div><div class="line"><span class="comment">    * 覆盖getParameter方法，将参数名和参数值都做xss过滤。&lt;br/&gt; </span></div><div class="line"><span class="comment">    * 如果需要获得原始的值，则通过super.getParameterValues(name)来获取&lt;br/&gt; </span></div><div class="line"><span class="comment">    * getParameterNames,getParameterValues和getParameterMap也可能需要覆盖 </span></div><div class="line"><span class="comment">    */</span>  </div><div class="line">    <span class="meta">@Override</span>  </div><div class="line">    <span class="keyword">public</span> <span class="built_in">String</span> getParameter(<span class="built_in">String</span> name) &#123;  </div><div class="line">	    	<span class="keyword">if</span>((<span class="string">"content"</span>.equals(name) || name.endsWith(<span class="string">"WithHtml"</span>)) &amp;&amp; !isIncludeRichText)&#123;</div><div class="line">	    		<span class="keyword">return</span> <span class="keyword">super</span>.getParameter(name);</div><div class="line">	    	&#125;</div><div class="line">	    	name = JsoupUtil.clean(name);</div><div class="line">        <span class="built_in">String</span> value = <span class="keyword">super</span>.getParameter(name);  </div><div class="line">        <span class="keyword">if</span> (StringUtils.isNotBlank(value)) &#123;</div><div class="line">            value = JsoupUtil.clean(value);  </div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> value;  </div><div class="line">    &#125;  </div><div class="line">    </div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="keyword">public</span> <span class="built_in">String</span>[] getParameterValues(<span class="built_in">String</span> name) &#123;</div><div class="line">    	<span class="built_in">String</span>[] arr = <span class="keyword">super</span>.getParameterValues(name);</div><div class="line">    	<span class="keyword">if</span>(arr != <span class="literal">null</span>)&#123;</div><div class="line">    		<span class="keyword">for</span> (int i=<span class="number">0</span>;i&lt;arr.length;i++) &#123;</div><div class="line">    			arr[i] = JsoupUtil.clean(arr[i]);</div><div class="line">    		&#125;</div><div class="line">    	&#125;</div><div class="line">    	<span class="keyword">return</span> arr;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">  </div><div class="line">    <span class="comment">/** </span></div><div class="line"><span class="comment">    * 覆盖getHeader方法，将参数名和参数值都做xss过滤。&lt;br/&gt; </span></div><div class="line"><span class="comment">    * 如果需要获得原始的值，则通过super.getHeaders(name)来获取&lt;br/&gt; </span></div><div class="line"><span class="comment">    * getHeaderNames 也可能需要覆盖 </span></div><div class="line"><span class="comment">    */</span>  </div><div class="line">    <span class="meta">@Override</span>  </div><div class="line">    <span class="keyword">public</span> <span class="built_in">String</span> getHeader(<span class="built_in">String</span> name) &#123;  </div><div class="line">    		name = JsoupUtil.clean(name);</div><div class="line">        <span class="built_in">String</span> value = <span class="keyword">super</span>.getHeader(name);  </div><div class="line">        <span class="keyword">if</span> (StringUtils.isNotBlank(value)) &#123;  </div><div class="line">            value = JsoupUtil.clean(value); </div><div class="line">        &#125;  </div><div class="line">        <span class="keyword">return</span> value;  </div><div class="line">    &#125;  </div><div class="line">  </div><div class="line">    <span class="comment">/** </span></div><div class="line"><span class="comment">    * 获取最原始的request </span></div><div class="line"><span class="comment">    * </span></div><div class="line"><span class="comment">    * @return </span></div><div class="line"><span class="comment">    */</span>  </div><div class="line">    <span class="keyword">public</span> HttpServletRequest getOrgRequest() &#123;  </div><div class="line">        <span class="keyword">return</span> orgRequest;  </div><div class="line">    &#125;  </div><div class="line">  </div><div class="line">    <span class="comment">/** </span></div><div class="line"><span class="comment">    * 获取最原始的request的静态方法 </span></div><div class="line"><span class="comment">    * </span></div><div class="line"><span class="comment">    * @return </span></div><div class="line"><span class="comment">    */</span>  </div><div class="line">    <span class="keyword">public</span> <span class="keyword">static</span> HttpServletRequest getOrgRequest(HttpServletRequest req) &#123;  </div><div class="line">        <span class="keyword">if</span> (req <span class="keyword">instanceof</span> XssHttpServletRequestWrapper) &#123;  </div><div class="line">            <span class="keyword">return</span> ((XssHttpServletRequestWrapper) req).getOrgRequest();  </div><div class="line">        &#125;  </div><div class="line">  </div><div class="line">        <span class="keyword">return</span> req;  </div><div class="line">    &#125;  </div><div class="line">  </div><div class="line">&#125; </div><div class="line"></div></pre></td></tr></table></figure>
+<h3 id="3、创建XssFilter"><a href="#3、创建XssFilter" class="headerlink" title="3、创建XssFilter"></a>3、创建XssFilter</h3><p>XssFilter是过滤XSS请求的入口，在这里通过XssHttpServletRequestWrapper将HttpServletRequest进行了封装，<code>filterChain.doFilter(xssRequest, response);</code>保证了后续代码执行request.getParameter，request.getParameterValues，request.getHeader时调用的都是XssHttpServletRequestWrapper内重写的方法，获取到的参数是已经进行过标签过滤的内容，从而消除了敏感信息。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="comment">/** </span></div><div class="line"><span class="comment"> * 拦截防止xss注入</span></div><div class="line"><span class="comment"> * 通过Jsoup过滤请求参数内的特定字符</span></div><div class="line"><span class="comment"> * <span class="doctag">@author</span> yangwk </span></div><div class="line"><span class="comment"> */</span>  </div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">XssFilter</span> <span class="keyword">implements</span> <span class="title">Filter</span> </span>&#123;  </div><div class="line">	<span class="keyword">private</span> <span class="keyword">static</span> Logger logger = LoggerFactory.getLogger(XssFilter.class);</div><div class="line">	</div><div class="line">	<span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">boolean</span> IS_INCLUDE_RICH_TEXT = <span class="keyword">false</span>;<span class="comment">//是否过滤富文本内容</span></div><div class="line">	</div><div class="line">	<span class="keyword">public</span> List&lt;String&gt; excludes = <span class="keyword">new</span> ArrayList&lt;String&gt;();</div><div class="line">  </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doFilter</span><span class="params">(ServletRequest request, ServletResponse response, FilterChain filterChain)</span> <span class="keyword">throws</span> IOException,ServletException </span>&#123;  </div><div class="line">    	<span class="keyword">if</span>(logger.isDebugEnabled())&#123;</div><div class="line">  			logger.debug(<span class="string">"xss filter is open"</span>);</div><div class="line">  		&#125;</div><div class="line">  		</div><div class="line">  		HttpServletRequest req = (HttpServletRequest) request;</div><div class="line">		HttpServletResponse resp = (HttpServletResponse) response;</div><div class="line">  		<span class="keyword">if</span>(handleExcludeURL(req, resp))&#123;</div><div class="line">  			filterChain.doFilter(request, response);</div><div class="line">			<span class="keyword">return</span>;</div><div class="line">		&#125;</div><div class="line">  		</div><div class="line">  		XssHttpServletRequestWrapper xssRequest = <span class="keyword">new</span> XssHttpServletRequestWrapper((HttpServletRequest) request,IS_INCLUDE_RICH_TEXT);</div><div class="line">  		filterChain.doFilter(xssRequest, response);</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">boolean</span> <span class="title">handleExcludeURL</span><span class="params">(HttpServletRequest request, HttpServletResponse response)</span> </span>&#123;</div><div class="line"></div><div class="line">		<span class="keyword">if</span> (excludes == <span class="keyword">null</span> || excludes.isEmpty()) &#123;</div><div class="line">			<span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">		&#125;</div><div class="line"></div><div class="line">		String url = request.getServletPath();</div><div class="line">		<span class="keyword">for</span> (String pattern : excludes) &#123;</div><div class="line">			Pattern p = Pattern.compile(<span class="string">"^"</span> + pattern);</div><div class="line">			Matcher m = p.matcher(url);</div><div class="line">			<span class="keyword">if</span> (m.find()) &#123;</div><div class="line">				<span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line"></div><div class="line">		<span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="meta">@Override</span></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">(FilterConfig filterConfig)</span> <span class="keyword">throws</span> ServletException </span>&#123;</div><div class="line">		<span class="keyword">if</span>(logger.isDebugEnabled())&#123;</div><div class="line">			logger.debug(<span class="string">"xss filter init~~~~~~~~~~~~"</span>);</div><div class="line">		&#125;</div><div class="line">		String isIncludeRichText = filterConfig.getInitParameter(<span class="string">"isIncludeRichText"</span>);</div><div class="line">		<span class="keyword">if</span>(StringUtils.isNotBlank(isIncludeRichText))&#123;</div><div class="line">			IS_INCLUDE_RICH_TEXT = BooleanUtils.toBoolean(isIncludeRichText);</div><div class="line">		&#125;</div><div class="line">		</div><div class="line">		String temp = filterConfig.getInitParameter(<span class="string">"excludes"</span>);</div><div class="line">		<span class="keyword">if</span> (temp != <span class="keyword">null</span>) &#123;</div><div class="line">			String[] url = temp.split(<span class="string">","</span>);</div><div class="line">			<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; url != <span class="keyword">null</span> &amp;&amp; i &lt; url.length; i++) &#123;</div><div class="line">				excludes.add(url[i]);</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="meta">@Override</span></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">destroy</span><span class="params">()</span> </span>&#123;&#125;  </div><div class="line">  </div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="4、注册XssFilter"><a href="#4、注册XssFilter" class="headerlink" title="4、注册XssFilter"></a>4、注册XssFilter</h3><p>通过java config的方式注册XSSFilter，使其生效。<br><figure class="highlight haxe"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"><span class="comment"> * xss过滤拦截器</span></div><div class="line"><span class="comment"> */</span></div><div class="line">@Bean</div><div class="line"><span class="keyword">public</span> FilterRegistrationBean xssFilterRegistrationBean() &#123;</div><div class="line">	FilterRegistrationBean filterRegistrationBean = <span class="keyword">new</span> <span class="type">FilterRegistrationBean</span>();</div><div class="line">	filterRegistrationBean.setFilter(<span class="keyword">new</span> <span class="type">XssFilter</span>());</div><div class="line">	filterRegistrationBean.setOrder(<span class="number">1</span>);</div><div class="line">	filterRegistrationBean.setEnabled(<span class="literal">true</span>);</div><div class="line">	filterRegistrationBean.addUrlPatterns(<span class="string">"/*"</span>);</div><div class="line">	Map&lt;<span class="keyword">String</span>, <span class="keyword">String</span>&gt; initParameters = Maps.<span class="keyword">new</span><span class="type">HashMap</span>();</div><div class="line">	initParameters.put(<span class="string">"excludes"</span>, <span class="string">"/favicon.ico,/img/*,/js/*,/css/*"</span>);</div><div class="line">	initParameters.put(<span class="string">"isIncludeRichText"</span>, <span class="string">"true"</span>);</div><div class="line">	filterRegistrationBean.setInitParameters(initParameters);</div><div class="line">	<span class="keyword">return</span> filterRegistrationBean;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<ul>
+<li>excludes用于配置不需要参数过滤的请求url</li>
+<li>isIncludeRichText默认为true，主要用于设置富文本（项目内约束以content为名或以WithHtml结尾）内容是否需要过滤，该选项可根据公司具体情况调整，建议约束富文本编辑框支持的标签并开启改约束，减少安全隐患</li>
+</ul>
+<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>防御XSS攻击，可以通过后端统一进行标签过滤，去掉所有输入内容中包含的类似于<code>&lt;script&gt;</code>这样的非法标签来实现。  </p>
+<ol>
+<li>标签过滤实现可使用Jsoup，功能强大，使用方便，更多内容可参考<a href="http://www.jianshu.com/p/32abc12a175a?nomobile=yes" target="_blank" rel="external">Jsoup 防止富文本 XSS 攻击</a>；  </li>
+<li>继承HttpServletRequestWrapper，重写从request内获取参数的方法，在其内调用JsoupUtil的方法，进行参数脱敏处理；  </li>
+<li>通过XssFilter将XssHttpServletRequestWrapper设置入处理链中，从而达到后续处理类内通过Request获取参数时调用的是重写后的获取参数的方法，进而达成业务代码无感知的实现了XSS过滤的目的。</li>
+</ol>
+
+            <div class="article-copyright">
+  <i class="fa fa-lightbulb-o"></i>本文由 <a href="http://www.onecoderspace.com/2017/10/06/spring-boot-xss/index.html">足迹|成长之路</a> 创作，采用
+  <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 进行许可。
+  可自由转载、引用，但需署名作者且注明文章出处。本文链接为<a href="http://www.onecoderspace.com/2017/10/06/spring-boot-xss/" target="_blank" rel="external">http://www.onecoderspace.com/2017/10/06/spring-boot-xss/</a>
+</div>
+
+            <div class="article-dashang">
+  <span>如果您觉得文章不错,可以请我喝一杯咖啡！</span><br/>
+  <a id="btn_donate" class="btn_donate" target="_self" href="javascript:;" title="Donate 打赏"></a>
+  <div id="dim-codes" hidden="hidden">
+    <ul class="img_box_ul">
+      <li><img src="/css/images/weixin.png" /></li>
+      <li><img src="/css/images/zhifubao.png" /></li>
+    </ul>
+  </div>
+</div>
+<script type="text/javascript">
+    $('#btn_donate').click(function(){
+      $('#dim-codes').toggle(300);
+    })
+</script>
+
+        
+        </div>
+        <footer class="article-footer">
+
+            
+    
+        <a href="http://www.onecoderspace.com/2017/10/06/spring-boot-xss/#comments" class="article-comment-link">评论</a>
+    
+
+
+            <div class="share-container">
+
+    <div class="jiathis_style">
+    <span class="jiathis_txt">分享到：</span>
+    <a class="jiathis_button_qzone">QQ空间</a>
+    <a class="jiathis_button_tsina">新浪微博</a>
+    <a class="jiathis_button_tqq">腾讯微博</a>
+    <a class="jiathis_button_weixin">微信</a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a>
+    <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<style>
+    .jiathis_style div:first-child:not(.jiadiv_01) {
+        width: auto !important;
+        border: none !important;
+    }
+    .jiathis_style .jiadiv_01 {
+        margin: 10px 0;
+        border-radius: 4px;
+        border: #e1e1e1 solid 1px;
+    }
+    .jiathis_style .jiadiv_01 div:first-child {
+        display: none;
+    }
+    .jiathis_style .jiadiv_02 {
+        padding: 7px 0 !important;
+    }
+    .jiathis_style .jiadiv_02 .jiatitle {
+        width: 85px;
+        border: none;
+        height: auto;
+        margin: 3px 10px;
+        padding: 6px 10px;
+        border-radius: 4px;
+    }
+    .jiathis_style .jiadiv_02 .jiatitle:hover {
+        border: none;
+    }
+    .jiathis_style .jiadiv_02 .jiatitle:nth-child(even) {
+        margin-left: 0;
+    }
+    .jiathis_style .jtico:hover {
+        opacity: 1;
+    }
+    .jiathis_style .ckepopBottom,
+    .jiathis_style .centerBottom {
+        width: auto !important;
+        padding: 5px;
+        background: #f7f7f7;
+    }
+</style>
+
+
+
+
+</div>
+
+        </footer>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+    
+        <a href="/2017/10/06/spring-boot-shiro-session/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">下一篇</strong>
+            <div class="article-nav-title">spring boot实战之shiro session过期时间</div>
+        </a>
+    
+</nav>
+
+
+    
+</article>
+
+
+    
+    <section id="comments">
+    
+        
+    <div id="uyan_frame"></div>
+
+    
+    </section>
+
+
+
+</section>
+            
+                <aside id="sidebar">
+   
+        <div class="widget-wrap">
+        <h3 class="widget-title">公告</h3>
+        <div class="widget">
+            <div class="card-front animated col s12 m12 l8 offset-l2 fadeInUp">
+                <p class="board">
+                    您好，您是第<span id="busuanzi_value_site_uv"></span>位访客<br>
+                    602361158<br>
+                    微信：sky602361158<br>
+                    邮箱：q7322068@126.com<br><br>
+                    欢迎交流与分享经验!</p>
+            </div>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">分类</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/java实战/">java实战</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/spring-boot实战/">spring boot实战</a><span class="category-list-count">13</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/">前端</a><span class="category-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">归档</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a><span class="archive-list-count">5</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">标签云</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/CORS/" style="font-size: 15px;">CORS</a> <a href="/tags/CSRF/" style="font-size: 10px;">CSRF</a> <a href="/tags/JPA/" style="font-size: 15px;">JPA</a> <a href="/tags/XSS/" style="font-size: 10px;">XSS</a> <a href="/tags/ajax-post跨域/" style="font-size: 10px;">ajax post跨域</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/html生成页面无法滚动/" style="font-size: 10px;">html生成页面无法滚动</a> <a href="/tags/java实战-spirng-boot-项目高效开发-自动构建-代码生成/" style="font-size: 10px;">java实战 spirng-boot 项目高效开发 自动构建 代码生成</a> <a href="/tags/redis/" style="font-size: 15px;">redis</a> <a href="/tags/shiro/" style="font-size: 15px;">shiro</a> <a href="/tags/shiro-session过期时间/" style="font-size: 10px;">shiro session过期时间</a> <a href="/tags/spring-boot/" style="font-size: 20px;">spring boot</a> <a href="/tags/spring-profile/" style="font-size: 10px;">spring profile</a> <a href="/tags/spring-boot实战/" style="font-size: 10px;">spring-boot实战</a> <a href="/tags/spring-session/" style="font-size: 15px;">spring-session</a> <a href="/tags/swagger2/" style="font-size: 10px;">swagger2</a> <a href="/tags/web基础框架/" style="font-size: 10px;">web基础框架</a> <a href="/tags/xss/" style="font-size: 10px;">xss</a> <a href="/tags/事务/" style="font-size: 15px;">事务</a> <a href="/tags/共享session/" style="font-size: 10px;">共享session</a> <a href="/tags/分布式锁/" style="font-size: 10px;">分布式锁</a> <a href="/tags/分布式锁，redis/" style="font-size: 10px;">分布式锁，redis</a> <a href="/tags/列表数据缓存/" style="font-size: 10px;">列表数据缓存</a> <a href="/tags/前端/" style="font-size: 10px;">前端</a> <a href="/tags/在线接口文档/" style="font-size: 10px;">在线接口文档</a> <a href="/tags/安全/" style="font-size: 10px;">安全</a> <a href="/tags/异常/" style="font-size: 10px;">异常</a> <a href="/tags/异常处理/" style="font-size: 10px;">异常处理</a> <a href="/tags/接口文档/" style="font-size: 10px;">接口文档</a> <a href="/tags/日志/" style="font-size: 15px;">日志</a> <a href="/tags/权限控制/" style="font-size: 15px;">权限控制</a> <a href="/tags/缓存/" style="font-size: 10px;">缓存</a> <a href="/tags/详情页返回列表无刷新/" style="font-size: 10px;">详情页返回列表无刷新</a> <a href="/tags/跨域/" style="font-size: 10px;">跨域</a> <a href="/tags/跨域支持/" style="font-size: 10px;">跨域支持</a>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">链接</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="http://itmuch.com" target="_blank">周立</a>
+                    </li>
+                
+                    <li>
+                        <a href="http://blog.didispace.com" target="_blank">程序猿DD</a>
+                    </li>
+                
+                    <li>
+                        <a href="http://edisonxu.org" target="_blank">EdisonXu</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+
+            
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            &copy; 2017 杨文魁<br>
+            本站总访问量<span id="busuanzi_value_site_pv"></span>次<br>
+            Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>.
+        </div>
+    </div>
+</footer>
+
+        
+    
+    <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=2144705"></script>
+
+
+
+    
+      <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+        <script src="/vendor/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/vendor/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/vendor/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/vendor/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/vendor/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/vendor/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/vendor/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/vendor/lightgallery/js/lg-share.min.js"></script>
+        <script src="/vendor/lightgallery/js/lg-video.min.js"></script>
+    
+    
+
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>
+</html>
