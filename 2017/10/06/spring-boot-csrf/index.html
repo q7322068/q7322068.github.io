@@ -13,7 +13,7 @@
 <meta property="og:site_name" content="足迹|成长之路">
 <meta property="og:description" content="CSRF（Cross-site request forgery）跨站请求伪造，也被称为“One Click Attack”或者Session Riding，通常缩写为CSRF或者XSRF，是一种对网站的恶意利用。攻击通过在授权用户访问的页面中包含链接或者脚本的方式工作。例如：一个网站用户Bob可能正在浏览聊天论坛，而同时另一个用户Alice也在此论坛中，并且后者刚刚发布了一个具有Bob银行链接的">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2017-10-06T08:47:37.000Z">
+<meta property="og:updated_time" content="2017-10-06T08:57:32.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="spring boot实战之CSRF（跨站请求伪造）">
 <meta name="twitter:description" content="CSRF（Cross-site request forgery）跨站请求伪造，也被称为“One Click Attack”或者Session Riding，通常缩写为CSRF或者XSRF，是一种对网站的恶意利用。攻击通过在授权用户访问的页面中包含链接或者脚本的方式工作。例如：一个网站用户Bob可能正在浏览聊天论坛，而同时另一个用户Alice也在此论坛中，并且后者刚刚发布了一个具有Bob银行链接的">
@@ -153,11 +153,11 @@
         </div>
         <div class="article-info profile-block">
             <div class="article-info-block">
-                17
+                18
                 <span>文章</span>
             </div>
             <div class="article-info-block">
-                35
+                36
                 <span>标签</span>
             </div>
         </div>
@@ -259,7 +259,13 @@
 <li>欺骗用户的浏览器发送HTTP请求给目标站点</li>
 <li>可以通过IMG标签会触发一个GET请求，可以利用它来实现CSRF攻击</li>
 </ol>
-<p>简而言之，就是用户小z登录了网站A，同时打开网站B，网站B隐蔽的发送一个请求至网站A，网站A通过session、cookie等身份标记判断是用户小z，执行对应操作，这样网站B内的非法代码就盗用了用户小z的身份，在小z不知情的情况下执行了攻击者需要的操作，这就是跨站请求伪造。</p>
+<p>一个简单的例子：  </p>
+<ul>
+<li>用户小z登录了网站A，同时打开网站B  </li>
+<li>网站B隐蔽的发送一个请求至网站A  </li>
+<li>网站A通过session、cookie等身份标记判断是用户小z，执行对应操作</li>
+</ul>
+<p>这样网站B内的非法代码就盗用了用户小z的身份，在小z不知情的情况下执行了攻击者需要的操作，这就是跨站请求伪造。</p>
 <p>防御CSRF可以通过动态token验证的方式来实现，每次请求生成一个动态token给前端，前端在后续的请求中附加该token，如果token不存在或不正确说明不是正常请求，予以屏蔽，从而达到解决CSRF问题的目的，以下是具体实现。</p>
 <h3 id="1、登录成功设置token"><a href="#1、登录成功设置token" class="headerlink" title="1、登录成功设置token"></a>1、登录成功设置token</h3><figure class="highlight arduino"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">String</span> uuidToken = UUID.randomUUID().toString();</div><div class="line"><span class="built_in">map</span>.<span class="built_in">put</span>(<span class="string">"token"</span>, uuidToken);</div><div class="line">currentUser.getSession().<span class="built_in">setTimeout</span>(NumberUtils.toLong(serverSessionTimeout, <span class="number">1800</span>)*<span class="number">1000</span>);</div><div class="line">request.getSession().setAttribute(<span class="string">"token"</span>,uuidToken );</div><div class="line"><span class="built_in">return</span> <span class="built_in">map</span>;</div><div class="line"></div></pre></td></tr></table></figure>
 <p>前后端分离架构，登录成功后将token传递给前端，由前端进行保存。</p>
@@ -371,6 +377,15 @@
         
 <nav id="article-nav">
     
+        <a href="/2017/10/06/spring-boot-utils/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">上一篇</strong>
+            <div class="article-nav-title">
+                
+                    spring boot实战之日期处理
+                
+            </div>
+        </a>
+    
     
         <a href="/2017/10/06/spring-boot-xss/" id="article-nav-older" class="article-nav-link-wrap">
             <strong class="article-nav-caption">下一篇</strong>
@@ -418,7 +433,7 @@
     <div class="widget-wrap">
         <h3 class="widget-title">分类</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/java实战/">java实战</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/spring-boot实战/">spring boot实战</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/">前端</a><span class="category-list-count">1</span></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/java实战/">java实战</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/spring-boot实战/">spring boot实战</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/">前端</a><span class="category-list-count">1</span></li></ul>
         </div>
     </div>
 
@@ -427,7 +442,7 @@
     <div class="widget-wrap">
         <h3 class="widget-title">归档</h3>
         <div class="widget">
-            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a><span class="archive-list-count">5</span></li></ul>
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a><span class="archive-list-count">13</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a><span class="archive-list-count">5</span></li></ul>
         </div>
     </div>
 
@@ -436,7 +451,7 @@
     <div class="widget-wrap">
         <h3 class="widget-title">标签云</h3>
         <div class="widget tagcloud">
-            <a href="/tags/CORS/" style="font-size: 15px;">CORS</a> <a href="/tags/CSRF/" style="font-size: 15px;">CSRF</a> <a href="/tags/JPA/" style="font-size: 15px;">JPA</a> <a href="/tags/XSS/" style="font-size: 10px;">XSS</a> <a href="/tags/ajax-post跨域/" style="font-size: 10px;">ajax post跨域</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/html生成页面无法滚动/" style="font-size: 10px;">html生成页面无法滚动</a> <a href="/tags/java实战-spirng-boot-项目高效开发-自动构建-代码生成/" style="font-size: 10px;">java实战 spirng-boot 项目高效开发 自动构建 代码生成</a> <a href="/tags/redis/" style="font-size: 15px;">redis</a> <a href="/tags/shiro/" style="font-size: 15px;">shiro</a> <a href="/tags/shiro-session过期时间/" style="font-size: 10px;">shiro session过期时间</a> <a href="/tags/spring-boot/" style="font-size: 20px;">spring boot</a> <a href="/tags/spring-profile/" style="font-size: 10px;">spring profile</a> <a href="/tags/spring-boot实战/" style="font-size: 10px;">spring-boot实战</a> <a href="/tags/spring-session/" style="font-size: 15px;">spring-session</a> <a href="/tags/swagger2/" style="font-size: 10px;">swagger2</a> <a href="/tags/web基础框架/" style="font-size: 10px;">web基础框架</a> <a href="/tags/xss/" style="font-size: 10px;">xss</a> <a href="/tags/事务/" style="font-size: 15px;">事务</a> <a href="/tags/共享session/" style="font-size: 10px;">共享session</a> <a href="/tags/分布式锁/" style="font-size: 10px;">分布式锁</a> <a href="/tags/分布式锁，redis/" style="font-size: 10px;">分布式锁，redis</a> <a href="/tags/列表数据缓存/" style="font-size: 10px;">列表数据缓存</a> <a href="/tags/前端/" style="font-size: 10px;">前端</a> <a href="/tags/在线接口文档/" style="font-size: 10px;">在线接口文档</a> <a href="/tags/安全/" style="font-size: 10px;">安全</a> <a href="/tags/异常/" style="font-size: 10px;">异常</a> <a href="/tags/异常处理/" style="font-size: 10px;">异常处理</a> <a href="/tags/接口文档/" style="font-size: 10px;">接口文档</a> <a href="/tags/日志/" style="font-size: 15px;">日志</a> <a href="/tags/权限控制/" style="font-size: 15px;">权限控制</a> <a href="/tags/缓存/" style="font-size: 10px;">缓存</a> <a href="/tags/详情页返回列表无刷新/" style="font-size: 10px;">详情页返回列表无刷新</a> <a href="/tags/跨域/" style="font-size: 10px;">跨域</a> <a href="/tags/跨域支持/" style="font-size: 10px;">跨域支持</a>
+            <a href="/tags/CORS/" style="font-size: 15px;">CORS</a> <a href="/tags/CSRF/" style="font-size: 15px;">CSRF</a> <a href="/tags/JPA/" style="font-size: 15px;">JPA</a> <a href="/tags/XSS/" style="font-size: 10px;">XSS</a> <a href="/tags/ajax-post跨域/" style="font-size: 10px;">ajax post跨域</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/html生成页面无法滚动/" style="font-size: 10px;">html生成页面无法滚动</a> <a href="/tags/java实战-spirng-boot-项目高效开发-自动构建-代码生成/" style="font-size: 10px;">java实战 spirng-boot 项目高效开发 自动构建 代码生成</a> <a href="/tags/redis/" style="font-size: 15px;">redis</a> <a href="/tags/shiro/" style="font-size: 15px;">shiro</a> <a href="/tags/shiro-session过期时间/" style="font-size: 10px;">shiro session过期时间</a> <a href="/tags/spring-boot/" style="font-size: 20px;">spring boot</a> <a href="/tags/spring-profile/" style="font-size: 10px;">spring profile</a> <a href="/tags/spring-boot实战/" style="font-size: 10px;">spring-boot实战</a> <a href="/tags/spring-session/" style="font-size: 15px;">spring-session</a> <a href="/tags/swagger2/" style="font-size: 10px;">swagger2</a> <a href="/tags/web基础框架/" style="font-size: 10px;">web基础框架</a> <a href="/tags/xss/" style="font-size: 10px;">xss</a> <a href="/tags/事务/" style="font-size: 15px;">事务</a> <a href="/tags/共享session/" style="font-size: 10px;">共享session</a> <a href="/tags/分布式锁/" style="font-size: 10px;">分布式锁</a> <a href="/tags/分布式锁，redis/" style="font-size: 10px;">分布式锁，redis</a> <a href="/tags/列表数据缓存/" style="font-size: 10px;">列表数据缓存</a> <a href="/tags/前端/" style="font-size: 10px;">前端</a> <a href="/tags/在线接口文档/" style="font-size: 10px;">在线接口文档</a> <a href="/tags/安全/" style="font-size: 10px;">安全</a> <a href="/tags/异常/" style="font-size: 10px;">异常</a> <a href="/tags/异常处理/" style="font-size: 10px;">异常处理</a> <a href="/tags/接口文档/" style="font-size: 10px;">接口文档</a> <a href="/tags/日志/" style="font-size: 15px;">日志</a> <a href="/tags/日期处理/" style="font-size: 10px;">日期处理</a> <a href="/tags/权限控制/" style="font-size: 15px;">权限控制</a> <a href="/tags/缓存/" style="font-size: 10px;">缓存</a> <a href="/tags/详情页返回列表无刷新/" style="font-size: 10px;">详情页返回列表无刷新</a> <a href="/tags/跨域/" style="font-size: 10px;">跨域</a> <a href="/tags/跨域支持/" style="font-size: 10px;">跨域支持</a>
         </div>
     </div>
 
