@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.onecoderspace.com/"/>
-  <updated>2017-10-07T08:47:03.000Z</updated>
+  <updated>2017-10-07T11:21:22.000Z</updated>
   <id>http://www.onecoderspace.com/</id>
   
   <author>
@@ -15,6 +15,30 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>spring boot项目实战-json</title>
+    <link href="http://www.onecoderspace.com/2017/10/07/spring-boot-json-util/"/>
+    <id>http://www.onecoderspace.com/2017/10/07/spring-boot-json-util/</id>
+    <published>2017-10-07T10:49:45.000Z</published>
+    <updated>2017-10-07T11:21:22.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>实体转json、json转实体是我们开发过程中经常遇到的，提取一套高效、易用的工具类会让开发过程舒爽不少，下面提供一个依赖jackson包的常用工具方法。<br><a id="more"></a></p><h3 id="1、添加maven依赖"><a href="#1、添加maven依赖" class="headerlink" title="1、添加maven依赖"></a>1、添加maven依赖</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.fasterxml.jackson.core<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>jackson-databind<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.codehaus.jackson<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>jackson-mapper-asl<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">version</span>&gt;</span>1.9.13<span class="tag">&lt;/<span class="name">version</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></div></pre></td></tr></table></figure><h3 id="2、对象转为json"><a href="#2、对象转为json" class="headerlink" title="2、对象转为json"></a>2、对象转为json</h3><figure class="highlight aspectj"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> ObjectMapper mapper = <span class="keyword">new</span> ObjectMapper();</div><div class="line"><span class="comment">/**</span></div><div class="line"><span class="comment"> * 将对象转化为json</span></div><div class="line"><span class="comment"> * <span class="doctag">@author</span> yangwenkui</span></div><div class="line"><span class="comment"> * <span class="doctag">@time</span> 2017年3月16日 下午2:55:10</span></div><div class="line"><span class="comment"> * <span class="doctag">@param</span> obj 待转化的对象</span></div><div class="line"><span class="comment"> * <span class="doctag">@return</span> 当转化发生异常时返回null</span></div><div class="line"><span class="comment"> */</span></div><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="function">String <span class="title">toJson</span><span class="params">(Object obj)</span></span>&#123;</div><div class="line"><span class="keyword">if</span>(obj == <span class="keyword">null</span>)&#123;</div><div class="line"><span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">&#125;</div><div class="line"><span class="keyword">try</span> &#123;</div><div class="line"><span class="function"><span class="keyword">return</span> mapper.<span class="title">writeValueAsString</span><span class="params">(obj)</span></span>;</div><div class="line">&#125; <span class="keyword">catch</span> (IOException e) &#123;</div><div class="line">logger.<span class="keyword">error</span>(String.format(<span class="string">"obj=[%s]"</span>, obj.toString()), e);</div><div class="line">&#125;</div><div class="line"><span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure><h3 id="3、json转为对象"><a href="#3、json转为对象" class="headerlink" title="3、json转为对象"></a>3、json转为对象</h3><figure class="highlight aspectj"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"><span class="comment"> * 将json转化为对象</span></div><div class="line"><span class="comment"> * <span class="doctag">@author</span> yangwenkui</span></div><div class="line"><span class="comment"> * <span class="doctag">@time</span> 2017年3月16日 下午2:56:26</span></div><div class="line"><span class="comment"> * <span class="doctag">@param</span> json json对象</span></div><div class="line"><span class="comment"> * <span class="doctag">@param</span> clazz 待转化的对象类型</span></div><div class="line"><span class="comment"> * <span class="doctag">@return</span> 当转化发生异常时返回null</span></div><div class="line"><span class="comment"> */</span></div><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> &lt;T&gt; <span class="function">T <span class="title">fromJson</span><span class="params">(String json,Class&lt;T&gt; clazz)</span></span>&#123;</div><div class="line"><span class="keyword">if</span>(json == <span class="keyword">null</span>)&#123;</div><div class="line"><span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">&#125;</div><div class="line"><span class="keyword">try</span> &#123;</div><div class="line"><span class="function"><span class="keyword">return</span> mapper.<span class="title">readValue</span><span class="params">(json, clazz)</span></span>;</div><div class="line">&#125; <span class="keyword">catch</span> (IOException e) &#123;</div><div class="line">logger.<span class="keyword">error</span>(String.format(<span class="string">"json=[%s]"</span>, json), e);</div><div class="line">&#125;</div><div class="line"><span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure><h3 id="4、json转为集合对象"><a href="#4、json转为集合对象" class="headerlink" title="4、json转为集合对象"></a>4、json转为集合对象</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"><span class="comment"> * 将json对象转化为集合类型</span></div><div class="line"><span class="comment"> * <span class="doctag">@author</span> yangwenkui</span></div><div class="line"><span class="comment"> * <span class="doctag">@time</span> 2017年3月16日 下午2:57:15</span></div><div class="line"><span class="comment"> * <span class="doctag">@param</span> json json对象</span></div><div class="line"><span class="comment"> * <span class="doctag">@param</span> collectionClazz 具体的集合类的class，如：ArrayList.class</span></div><div class="line"><span class="comment"> * <span class="doctag">@param</span> clazz 集合内存放的对象的class</span></div><div class="line"><span class="comment"> * <span class="doctag">@return</span></span></div><div class="line"><span class="comment"> */</span></div><div class="line">@SuppressWarnings(<span class="string">"rawtypes"</span>)</div><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> &lt;T&gt; Collection&lt;T&gt; fromJson(String json,<span class="class"><span class="keyword">Class</span>&lt;? <span class="keyword">extends</span> <span class="title">Collection</span>&gt; <span class="title">collectionClazz</span>,<span class="title">Class</span>&lt;<span class="title">T</span>&gt; <span class="title">clazz</span>)</span>&#123;</div><div class="line"><span class="keyword">if</span>(json == <span class="keyword">null</span>)&#123;</div><div class="line"><span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">&#125;</div><div class="line"><span class="keyword">try</span> &#123;</div><div class="line">Collection&lt;T&gt; collection =  mapper.readValue(json, getCollectionType(collectionClazz,clazz));</div><div class="line"><span class="keyword">return</span> collection;</div><div class="line">&#125; <span class="keyword">catch</span> (IOException e) &#123;</div><div class="line">logger.error(String.format(<span class="string">"json=[%s]"</span>, json), e);</div><div class="line">&#125;</div><div class="line"><span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">private</span> <span class="keyword">static</span> JavaType getCollectionType(<span class="class"><span class="keyword">Class</span>&lt;?&gt; <span class="title">collectionClass</span>, <span class="title">Class</span>&lt;?&gt;... <span class="title">elementClasses</span>) </span>&#123;   </div><div class="line"><span class="keyword">return</span> mapper.getTypeFactory().constructParametricType(collectionClass, elementClasses);   </div><div class="line">&#125;</div></pre></td></tr></table></figure><h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><ol><li>常用的JSON技术有，json-lib、Jackson、Gson、FastJson，在易用性、性能等方面Jackson都表现不错，推荐使用Jackson包；</li><li>将对象对象存入缓存、从缓存内取出字符串转为对象、REST API接口返回结果转为对象等诸多场景下都有对象和json之间的转换操作，<strong>“见到经常出现的重复代码，提取出来作为通用方法是一个好的习惯”。</strong></li></ol><p>完整代码请参考github内rest-base项目com.onecoderspace.base.util.JacksonHelper。<br><a href="https://github.com/q7322068/rest-base" target="_blank">https://github.com/q7322068/rest-base</a></p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;实体转json、json转实体是我们开发过程中经常遇到的，提取一套高效、易用的工具类会让开发过程舒爽不少，下面提供一个依赖jackson包的常用工具方法。&lt;br&gt;
+    
+    </summary>
+    
+      <category term="spring boot实战" scheme="http://www.onecoderspace.com/categories/spring-boot%E5%AE%9E%E6%88%98/"/>
+    
+    
+      <category term="spring boot" scheme="http://www.onecoderspace.com/tags/spring-boot/"/>
+    
+      <category term="json" scheme="http://www.onecoderspace.com/tags/json/"/>
+    
+  </entry>
   
   <entry>
     <title>spring boot实战之集合操作</title>
@@ -469,29 +493,29 @@
       <category term="spring boot实战" scheme="http://www.onecoderspace.com/categories/spring-boot%E5%AE%9E%E6%88%98/"/>
     
     
+      <category term="CORS" scheme="http://www.onecoderspace.com/tags/CORS/"/>
+    
       <category term="CSRF" scheme="http://www.onecoderspace.com/tags/CSRF/"/>
     
-      <category term="CORS" scheme="http://www.onecoderspace.com/tags/CORS/"/>
+      <category term="日志" scheme="http://www.onecoderspace.com/tags/%E6%97%A5%E5%BF%97/"/>
     
       <category term="JPA" scheme="http://www.onecoderspace.com/tags/JPA/"/>
     
-      <category term="日志" scheme="http://www.onecoderspace.com/tags/%E6%97%A5%E5%BF%97/"/>
+      <category term="spring-session" scheme="http://www.onecoderspace.com/tags/spring-session/"/>
     
       <category term="shiro" scheme="http://www.onecoderspace.com/tags/shiro/"/>
     
       <category term="权限控制" scheme="http://www.onecoderspace.com/tags/%E6%9D%83%E9%99%90%E6%8E%A7%E5%88%B6/"/>
     
-      <category term="spring-session" scheme="http://www.onecoderspace.com/tags/spring-session/"/>
-    
       <category term="redis" scheme="http://www.onecoderspace.com/tags/redis/"/>
-    
-      <category term="事务" scheme="http://www.onecoderspace.com/tags/%E4%BA%8B%E5%8A%A1/"/>
     
       <category term="spring-boot实战" scheme="http://www.onecoderspace.com/tags/spring-boot%E5%AE%9E%E6%88%98/"/>
     
       <category term="web基础框架" scheme="http://www.onecoderspace.com/tags/web%E5%9F%BA%E7%A1%80%E6%A1%86%E6%9E%B6/"/>
     
       <category term="异常" scheme="http://www.onecoderspace.com/tags/%E5%BC%82%E5%B8%B8/"/>
+    
+      <category term="事务" scheme="http://www.onecoderspace.com/tags/%E4%BA%8B%E5%8A%A1/"/>
     
       <category term="接口文档" scheme="http://www.onecoderspace.com/tags/%E6%8E%A5%E5%8F%A3%E6%96%87%E6%A1%A3/"/>
     
