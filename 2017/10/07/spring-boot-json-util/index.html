@@ -5,18 +5,18 @@
     
     <title>spring boot项目实战-json | 足迹|成长之路</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="实体转json、json转实体是我们开发过程中经常遇到的，提取一套高效、易用的工具类会让开发过程舒爽不少，下面提供一个依赖jackson包的常用工具方法。">
+    <meta name="description" content="对象转json、json转对象是我们开发过程中经常遇到的，提取一套高效、易用的工具类会让开发过程舒爽不少，下面提供一个基于jackson包的常用json工具方法。">
 <meta name="keywords" content="spring boot,json">
 <meta property="og:type" content="article">
 <meta property="og:title" content="spring boot项目实战-json">
 <meta property="og:url" content="http://www.onecoderspace.com/2017/10/07/spring-boot-json-util/index.html">
 <meta property="og:site_name" content="足迹|成长之路">
-<meta property="og:description" content="实体转json、json转实体是我们开发过程中经常遇到的，提取一套高效、易用的工具类会让开发过程舒爽不少，下面提供一个依赖jackson包的常用工具方法。">
+<meta property="og:description" content="对象转json、json转对象是我们开发过程中经常遇到的，提取一套高效、易用的工具类会让开发过程舒爽不少，下面提供一个基于jackson包的常用json工具方法。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2017-10-07T11:21:22.000Z">
+<meta property="og:updated_time" content="2017-10-07T11:23:28.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="spring boot项目实战-json">
-<meta name="twitter:description" content="实体转json、json转实体是我们开发过程中经常遇到的，提取一套高效、易用的工具类会让开发过程舒爽不少，下面提供一个依赖jackson包的常用工具方法。">
+<meta name="twitter:description" content="对象转json、json转对象是我们开发过程中经常遇到的，提取一套高效、易用的工具类会让开发过程舒爽不少，下面提供一个基于jackson包的常用json工具方法。">
     
 
     
@@ -153,11 +153,11 @@
         </div>
         <div class="article-info profile-block">
             <div class="article-info-block">
-                20
+                21
                 <span>文章</span>
             </div>
             <div class="article-info-block">
-                39
+                40
                 <span>标签</span>
             </div>
         </div>
@@ -248,7 +248,7 @@
         <div class="article-entry" itemprop="articleBody">
         
             
-            <p>实体转json、json转实体是我们开发过程中经常遇到的，提取一套高效、易用的工具类会让开发过程舒爽不少，下面提供一个依赖jackson包的常用工具方法。<br><a id="more"></a></p>
+            <p>对象转json、json转对象是我们开发过程中经常遇到的，提取一套高效、易用的工具类会让开发过程舒爽不少，下面提供一个基于jackson包的常用json工具方法。<br><a id="more"></a></p>
 <h3 id="1、添加maven依赖"><a href="#1、添加maven依赖" class="headerlink" title="1、添加maven依赖"></a>1、添加maven依赖</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.fasterxml.jackson.core<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>jackson-databind<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.codehaus.jackson<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>jackson-mapper-asl<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">version</span>&gt;</span>1.9.13<span class="tag">&lt;/<span class="name">version</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></div></pre></td></tr></table></figure>
 <h3 id="2、对象转为json"><a href="#2、对象转为json" class="headerlink" title="2、对象转为json"></a>2、对象转为json</h3><figure class="highlight aspectj"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> ObjectMapper mapper = <span class="keyword">new</span> ObjectMapper();</div><div class="line"><span class="comment">/**</span></div><div class="line"><span class="comment"> * 将对象转化为json</span></div><div class="line"><span class="comment"> * <span class="doctag">@author</span> yangwenkui</span></div><div class="line"><span class="comment"> * <span class="doctag">@time</span> 2017年3月16日 下午2:55:10</span></div><div class="line"><span class="comment"> * <span class="doctag">@param</span> obj 待转化的对象</span></div><div class="line"><span class="comment"> * <span class="doctag">@return</span> 当转化发生异常时返回null</span></div><div class="line"><span class="comment"> */</span></div><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="function">String <span class="title">toJson</span><span class="params">(Object obj)</span></span>&#123;</div><div class="line">	<span class="keyword">if</span>(obj == <span class="keyword">null</span>)&#123;</div><div class="line">		<span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">try</span> &#123;</div><div class="line">		<span class="function"><span class="keyword">return</span> mapper.<span class="title">writeValueAsString</span><span class="params">(obj)</span></span>;</div><div class="line">	&#125; <span class="keyword">catch</span> (IOException e) &#123;</div><div class="line">		logger.<span class="keyword">error</span>(String.format(<span class="string">"obj=[%s]"</span>, obj.toString()), e);</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <h3 id="3、json转为对象"><a href="#3、json转为对象" class="headerlink" title="3、json转为对象"></a>3、json转为对象</h3><figure class="highlight aspectj"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"><span class="comment"> * 将json转化为对象</span></div><div class="line"><span class="comment"> * <span class="doctag">@author</span> yangwenkui</span></div><div class="line"><span class="comment"> * <span class="doctag">@time</span> 2017年3月16日 下午2:56:26</span></div><div class="line"><span class="comment"> * <span class="doctag">@param</span> json json对象</span></div><div class="line"><span class="comment"> * <span class="doctag">@param</span> clazz 待转化的对象类型</span></div><div class="line"><span class="comment"> * <span class="doctag">@return</span> 当转化发生异常时返回null</span></div><div class="line"><span class="comment"> */</span></div><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> &lt;T&gt; <span class="function">T <span class="title">fromJson</span><span class="params">(String json,Class&lt;T&gt; clazz)</span></span>&#123;</div><div class="line">	<span class="keyword">if</span>(json == <span class="keyword">null</span>)&#123;</div><div class="line">		<span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">try</span> &#123;</div><div class="line">		<span class="function"><span class="keyword">return</span> mapper.<span class="title">readValue</span><span class="params">(json, clazz)</span></span>;</div><div class="line">	&#125; <span class="keyword">catch</span> (IOException e) &#123;</div><div class="line">		logger.<span class="keyword">error</span>(String.format(<span class="string">"json=[%s]"</span>, json), e);</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
@@ -355,6 +355,15 @@
         
 <nav id="article-nav">
     
+        <a href="/2017/10/07/spring-boot-util-ognl/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">上一篇</strong>
+            <div class="article-nav-title">
+                
+                    spring boot项目实战之工具篇（ognl）
+                
+            </div>
+        </a>
+    
     
         <a href="/2017/10/07/spring-boot-collection-util/" id="article-nav-older" class="article-nav-link-wrap">
             <strong class="article-nav-caption">下一篇</strong>
@@ -402,7 +411,7 @@
     <div class="widget-wrap">
         <h3 class="widget-title">分类</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/java实战/">java实战</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/spring-boot实战/">spring boot实战</a><span class="category-list-count">17</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/">前端</a><span class="category-list-count">1</span></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/java实战/">java实战</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/spring-boot实战/">spring boot实战</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/">前端</a><span class="category-list-count">1</span></li></ul>
         </div>
     </div>
 
@@ -411,7 +420,7 @@
     <div class="widget-wrap">
         <h3 class="widget-title">归档</h3>
         <div class="widget">
-            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a><span class="archive-list-count">15</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a><span class="archive-list-count">5</span></li></ul>
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a><span class="archive-list-count">16</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a><span class="archive-list-count">5</span></li></ul>
         </div>
     </div>
 
@@ -420,7 +429,7 @@
     <div class="widget-wrap">
         <h3 class="widget-title">标签云</h3>
         <div class="widget tagcloud">
-            <a href="/tags/CORS/" style="font-size: 15px;">CORS</a> <a href="/tags/CSRF/" style="font-size: 15px;">CSRF</a> <a href="/tags/JPA/" style="font-size: 15px;">JPA</a> <a href="/tags/XSS/" style="font-size: 10px;">XSS</a> <a href="/tags/ajax-post跨域/" style="font-size: 10px;">ajax post跨域</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/html生成页面无法滚动/" style="font-size: 10px;">html生成页面无法滚动</a> <a href="/tags/java实战-spirng-boot-项目高效开发-自动构建-代码生成/" style="font-size: 10px;">java实战 spirng-boot 项目高效开发 自动构建 代码生成</a> <a href="/tags/json/" style="font-size: 10px;">json</a> <a href="/tags/redis/" style="font-size: 15px;">redis</a> <a href="/tags/shiro/" style="font-size: 15px;">shiro</a> <a href="/tags/shiro-session过期时间/" style="font-size: 10px;">shiro session过期时间</a> <a href="/tags/spring-boot/" style="font-size: 20px;">spring boot</a> <a href="/tags/spring-profile/" style="font-size: 10px;">spring profile</a> <a href="/tags/spring-boot实战/" style="font-size: 10px;">spring-boot实战</a> <a href="/tags/spring-session/" style="font-size: 15px;">spring-session</a> <a href="/tags/swagger2/" style="font-size: 10px;">swagger2</a> <a href="/tags/web基础框架/" style="font-size: 10px;">web基础框架</a> <a href="/tags/xss/" style="font-size: 10px;">xss</a> <a href="/tags/事务/" style="font-size: 15px;">事务</a> <a href="/tags/共享session/" style="font-size: 10px;">共享session</a> <a href="/tags/分布式锁/" style="font-size: 10px;">分布式锁</a> <a href="/tags/分布式锁，redis/" style="font-size: 10px;">分布式锁，redis</a> <a href="/tags/列表数据缓存/" style="font-size: 10px;">列表数据缓存</a> <a href="/tags/前端/" style="font-size: 10px;">前端</a> <a href="/tags/在线接口文档/" style="font-size: 10px;">在线接口文档</a> <a href="/tags/安全/" style="font-size: 10px;">安全</a> <a href="/tags/工具类/" style="font-size: 10px;">工具类</a> <a href="/tags/异常/" style="font-size: 10px;">异常</a> <a href="/tags/异常处理/" style="font-size: 10px;">异常处理</a> <a href="/tags/接口文档/" style="font-size: 10px;">接口文档</a> <a href="/tags/日志/" style="font-size: 15px;">日志</a> <a href="/tags/日期处理/" style="font-size: 10px;">日期处理</a> <a href="/tags/权限控制/" style="font-size: 15px;">权限控制</a> <a href="/tags/缓存/" style="font-size: 10px;">缓存</a> <a href="/tags/详情页返回列表无刷新/" style="font-size: 10px;">详情页返回列表无刷新</a> <a href="/tags/跨域/" style="font-size: 10px;">跨域</a> <a href="/tags/跨域支持/" style="font-size: 10px;">跨域支持</a> <a href="/tags/集合/" style="font-size: 10px;">集合</a>
+            <a href="/tags/CORS/" style="font-size: 15px;">CORS</a> <a href="/tags/CSRF/" style="font-size: 15px;">CSRF</a> <a href="/tags/JPA/" style="font-size: 15px;">JPA</a> <a href="/tags/XSS/" style="font-size: 10px;">XSS</a> <a href="/tags/ajax-post跨域/" style="font-size: 10px;">ajax post跨域</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/html生成页面无法滚动/" style="font-size: 10px;">html生成页面无法滚动</a> <a href="/tags/java实战-spirng-boot-项目高效开发-自动构建-代码生成/" style="font-size: 10px;">java实战 spirng-boot 项目高效开发 自动构建 代码生成</a> <a href="/tags/json/" style="font-size: 10px;">json</a> <a href="/tags/ognl/" style="font-size: 10px;">ognl</a> <a href="/tags/redis/" style="font-size: 15px;">redis</a> <a href="/tags/shiro/" style="font-size: 15px;">shiro</a> <a href="/tags/shiro-session过期时间/" style="font-size: 10px;">shiro session过期时间</a> <a href="/tags/spring-boot/" style="font-size: 20px;">spring boot</a> <a href="/tags/spring-profile/" style="font-size: 10px;">spring profile</a> <a href="/tags/spring-boot实战/" style="font-size: 10px;">spring-boot实战</a> <a href="/tags/spring-session/" style="font-size: 15px;">spring-session</a> <a href="/tags/swagger2/" style="font-size: 10px;">swagger2</a> <a href="/tags/web基础框架/" style="font-size: 10px;">web基础框架</a> <a href="/tags/xss/" style="font-size: 10px;">xss</a> <a href="/tags/事务/" style="font-size: 15px;">事务</a> <a href="/tags/共享session/" style="font-size: 10px;">共享session</a> <a href="/tags/分布式锁/" style="font-size: 10px;">分布式锁</a> <a href="/tags/分布式锁，redis/" style="font-size: 10px;">分布式锁，redis</a> <a href="/tags/列表数据缓存/" style="font-size: 10px;">列表数据缓存</a> <a href="/tags/前端/" style="font-size: 10px;">前端</a> <a href="/tags/在线接口文档/" style="font-size: 10px;">在线接口文档</a> <a href="/tags/安全/" style="font-size: 10px;">安全</a> <a href="/tags/工具类/" style="font-size: 10px;">工具类</a> <a href="/tags/异常/" style="font-size: 10px;">异常</a> <a href="/tags/异常处理/" style="font-size: 10px;">异常处理</a> <a href="/tags/接口文档/" style="font-size: 10px;">接口文档</a> <a href="/tags/日志/" style="font-size: 15px;">日志</a> <a href="/tags/日期处理/" style="font-size: 10px;">日期处理</a> <a href="/tags/权限控制/" style="font-size: 15px;">权限控制</a> <a href="/tags/缓存/" style="font-size: 10px;">缓存</a> <a href="/tags/详情页返回列表无刷新/" style="font-size: 10px;">详情页返回列表无刷新</a> <a href="/tags/跨域/" style="font-size: 10px;">跨域</a> <a href="/tags/跨域支持/" style="font-size: 10px;">跨域支持</a> <a href="/tags/集合/" style="font-size: 10px;">集合</a>
         </div>
     </div>
 

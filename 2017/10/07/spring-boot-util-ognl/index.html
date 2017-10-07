@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <meta charset="utf-8">
+    
+    <title>spring boot项目实战之工具篇（ognl） | 足迹|成长之路</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="当解析复杂的json结构时，ognl是一个很方便的工具，实现基于图对属性的访问，类似于以(user.name | user.depart[0])的方式获取json内的嵌套对象字段值。">
+<meta name="keywords" content="spring boot,ognl">
+<meta property="og:type" content="article">
+<meta property="og:title" content="spring boot项目实战之工具篇（ognl）">
+<meta property="og:url" content="http://www.onecoderspace.com/2017/10/07/spring-boot-util-ognl/index.html">
+<meta property="og:site_name" content="足迹|成长之路">
+<meta property="og:description" content="当解析复杂的json结构时，ognl是一个很方便的工具，实现基于图对属性的访问，类似于以(user.name | user.depart[0])的方式获取json内的嵌套对象字段值。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2017-10-07T12:53:54.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="spring boot项目实战之工具篇（ognl）">
+<meta name="twitter:description" content="当解析复杂的json结构时，ognl是一个很方便的工具，实现基于图对属性的访问，类似于以(user.name | user.depart[0])的方式获取json内的嵌套对象字段值。">
+    
+
+    
+        <link rel="alternate" href="/atom.xml" title="足迹|成长之路" type="application/atom+xml" />
+    
+
+    
+
+    <link rel="stylesheet" href="/vendor/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/vendor/open-sans/styles.css">
+    <link rel="stylesheet" href="/vendor/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/vendor/jquery/2.1.3/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/vendor/lightgallery/css/lightgallery.min.css">
+    
+    
+    
+    
+    
+
+
+</head>
+
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">足迹|成长之路</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/.">主页</a>
+                
+                    <a class="main-nav-link" href="/archives">归档</a>
+                
+                    <a class="main-nav-link" href="/2017/09/25/spring-boot项目实战：目录/">spring boot实战</a>
+                
+                    <a class="main-nav-link" href="/about">关于我</a>
+                
+            </nav>
+            
+                
+                <nav id="sub-nav">
+                    <div class="profile" id="profile-nav">
+                        <a id="profile-anchor" href="javascript:;">
+                            <img class="avatar" src="/css/images/avatar.jpg" />
+                            <i class="fa fa-caret-down"></i>
+                        </a>
+                    </div>
+                </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="想要查找什么..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/.">主页</a></td>
+                
+                    <td><a class="main-nav-link" href="/archives">归档</a></td>
+                
+                    <td><a class="main-nav-link" href="/2017/09/25/spring-boot项目实战：目录/">spring boot实战</a></td>
+                
+                    <td><a class="main-nav-link" href="/about">关于我</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+                
+
+<aside id="profile">
+    <div class="inner profile-inner">
+        <div class="base-info profile-block">
+            <img id="avatar" src="/css/images/avatar.jpg" />
+            <h2 id="name">杨文魁</h2>
+            <h3 id="title">本分的java web程序员，写写代码，做做架构，愿意沉下心学习新的技术，在这里分享记录学习工作中的心得</h3>
+            <span id="location"><i class="fa fa-map-marker"></i>中国 - 上海</span>
+            <a id="follow" target="_blank" href="http://www.onecoderspace.com/about">关注我</a>
+        </div>
+        <div class="article-info profile-block">
+            <div class="article-info-block">
+                21
+                <span>文章</span>
+            </div>
+            <div class="article-info-block">
+                40
+                <span>标签</span>
+            </div>
+        </div>
+        
+        <div class="profile-block social-links">
+            <table>
+                <tr>
+                    
+                    
+                    <td>
+                        <a href="https://github.com/q7322068" target="_blank" title="github" class=tooltip>
+                            <i class="fa fa-github"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="mailto:q7322068@126.com" target="_blank" title="envelope" class=tooltip>
+                            <i class="fa fa-envelope"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/css/images/myweixin.png" target="_blank" title="weixin" class=tooltip>
+                            <i class="fa fa-weixin"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/atom.xml" target="_blank" title="rss" class=tooltip>
+                            <i class="fa fa-rss"></i>
+                        </a>
+                    </td>
+                    
+                </tr>
+            </table>
+        </div>
+        
+    </div>
+</aside>
+
+            
+            <section id="main"><article id="post-spring-boot-util-ognl" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+            spring boot项目实战之工具篇（ognl）
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2017/10/07/spring-boot-util-ognl/">
+            <time datetime="2017-10-07T11:43:10.000Z" itemprop="datePublished">2017-10-07</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/spring-boot实战/">spring boot实战</a>
+    </div>
+
+                        
+    <!--<div class="article-tag">-->
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/ognl/">ognl</a>, <a class="tag-link" href="/tags/spring-boot/">spring boot</a>
+    <!--</div>-->
+
+
+                        
+                          <span id="busuanzi_container_site_pv" style='display:none;float: right'>
+                          <i class="fa fa-eye" aria-hidden="true" style="margin-right:5px;"></i><span id="busuanzi_value_page_pv"></span>人阅读
+                        </span>
+                        
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <p>当解析复杂的json结构时，ognl是一个很方便的工具，实现基于图对属性的访问，类似于以(user.name | user.depart[0])的方式获取json内的嵌套对象字段值。<br><a id="more"></a></p>
+<p>请看以下示例，你将对ognl的作用有一个更清晰的理解：<br><figure class="highlight vbscript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="built_in">String</span> json = <span class="string">"&#123;\"</span>user\<span class="string">":&#123;\"</span>name\<span class="string">":\"</span><span class="number">123</span>\<span class="string">",\"</span>depart\<span class="string">":[1,2]&#125;&#125;"</span>;</div><div class="line">Map&lt;?, ?&gt; map = JacksonHelper.fromJson(json, Map.<span class="keyword">class</span>);</div><div class="line">OgnlWrapper ognlWrapper = <span class="keyword">new</span> OgnlWrapper(map);</div><div class="line">System.<span class="built_in">err</span>.println(ognlWrapper.<span class="keyword">get</span>(<span class="string">"user.name"</span>));</div><div class="line">System.<span class="built_in">err</span>.println(ognlWrapper.<span class="keyword">get</span>(<span class="string">"user.depart.size"</span>));</div><div class="line">System.<span class="built_in">err</span>.println(ognlWrapper.<span class="keyword">get</span>(<span class="string">"user.depart[0]"</span>));</div><div class="line"></div></pre></td></tr></table></figure></p>
+<ul>
+<li>内部对象的普通字段可以通过user.name这样的方式获取</li>
+<li>内部对象的集合字段可以通过user.depart.size获取其集合长度</li>
+<li>内部对象的集合字段可以通过user.depart[0]的方式获取对应下标出的值</li>
+</ul>
+<p>通常json对象解析可以通过一层一层的转换为map来实现，但如果嵌套对象层次有3层以上，内部结构较复杂，那实现起来就很繁琐，代码冗长，这种情况下使用ognl能让代码精简很多。</p>
+<h3 id="1、添加maven依赖"><a href="#1、添加maven依赖" class="headerlink" title="1、添加maven依赖"></a>1、添加maven依赖</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="comment">&lt;!-- ognl --&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>ognl<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>ognl<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">version</span>&gt;</span>3.2.1<span class="tag">&lt;/<span class="name">version</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></div></pre></td></tr></table></figure>
+<h3 id="2、OgnlWrapper"><a href="#2、OgnlWrapper" class="headerlink" title="2、OgnlWrapper"></a>2、OgnlWrapper</h3><figure class="highlight processing"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">@SuppressWarnings(<span class="string">"unchecked"</span>)</div><div class="line"><span class="keyword">public</span> class OgnlWrapper &#123;</div><div class="line"></div><div class="line">	<span class="keyword">private</span> <span class="keyword">static</span> Logger logger = LoggerFactory.getLogger(OgnlWrapper.class);</div><div class="line"></div><div class="line">	<span class="keyword">private</span> <span class="keyword">static</span> ObjectMapper om = <span class="keyword">new</span> ObjectMapper();</div><div class="line">	<span class="keyword">private</span> Map&lt;<span class="keyword">String</span>, <span class="keyword">Object</span>&gt; payload;</div><div class="line"></div><div class="line">	<span class="keyword">public</span> OgnlWrapper(Map&lt;<span class="keyword">String</span>, <span class="keyword">Object</span>&gt; playload) &#123;</div><div class="line">		Validate.notEmpty(playload, <span class="string">"can not construct with none playload!"</span>);</div><div class="line">		<span class="keyword">this</span>.payload = playload;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	</div><div class="line">	<span class="keyword">public</span> OgnlWrapper(<span class="keyword">Object</span> playload) &#123;</div><div class="line">		<span class="keyword">this</span>.payload = om.convertValue(playload, Map.class);</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="keyword">public</span> &lt;T&gt; T <span class="built_in">get</span>(<span class="keyword">String</span> expression) &#123;</div><div class="line">		<span class="keyword">try</span> &#123;</div><div class="line">			<span class="keyword">return</span> (T) Ognl.getValue(expression, <span class="keyword">this</span>.payload);</div><div class="line">		&#125; <span class="keyword">catch</span> (OgnlException e) &#123;</div><div class="line">			logger.trace(<span class="keyword">String</span>.format(<span class="string">"get value with expression:[%s] due to error, return null instead of"</span>,</div><div class="line">				expression), e);</div><div class="line">			<span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="keyword">public</span> Long getLong(<span class="keyword">String</span> expression) &#123;</div><div class="line">		<span class="keyword">try</span> &#123;</div><div class="line">			<span class="keyword">Object</span> obj = Ognl.getValue(expression, <span class="keyword">this</span>.payload);</div><div class="line">			<span class="keyword">if</span> (<span class="keyword">null</span> == obj)</div><div class="line">				<span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">			<span class="keyword">try</span> &#123;</div><div class="line">				<span class="keyword">return</span> Long.parseLong(obj.toString());</div><div class="line">			&#125; <span class="keyword">catch</span> (NumberFormatException nfe) &#123;</div><div class="line">				logger.warn(<span class="keyword">String</span>.format(<span class="string">"get value with expression:[%s] due to error, return null. value[%s] cannot be cast to java.lang.Long"</span>,</div><div class="line">					expression,</div><div class="line">					obj.toString()));</div><div class="line">				<span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">			&#125;</div><div class="line">		&#125; <span class="keyword">catch</span> (OgnlException e) &#123;</div><div class="line">			logger.trace(<span class="keyword">String</span>.format(<span class="string">"get value with expression:[%s] due to error, return null instead of"</span>,</div><div class="line">				expression), e);</div><div class="line">			<span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="keyword">public</span> Integer getInt(<span class="keyword">String</span> expression) &#123;</div><div class="line">		<span class="keyword">try</span> &#123;</div><div class="line">			<span class="keyword">Object</span> obj = Ognl.getValue(expression, <span class="keyword">this</span>.payload);</div><div class="line">			<span class="keyword">if</span> (<span class="keyword">null</span> == obj)</div><div class="line">				<span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">			<span class="keyword">try</span> &#123;</div><div class="line">				<span class="keyword">return</span> Integer.parseInt(obj.toString());</div><div class="line">			&#125; <span class="keyword">catch</span> (NumberFormatException nfe) &#123;</div><div class="line">				logger.warn(<span class="keyword">String</span>.format(<span class="string">"get value with expression:[%s] due to error, return null. value[%s] cannot be cast to java.lang.Integer"</span>,</div><div class="line">					expression,</div><div class="line">					obj.toString()));</div><div class="line">				<span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">			&#125;</div><div class="line">		&#125; <span class="keyword">catch</span> (OgnlException e) &#123;</div><div class="line">			logger.trace(<span class="keyword">String</span>.format(<span class="string">"get value with expression:[%s] due to error, return null instead of"</span>,</div><div class="line">				expression), e);</div><div class="line">			<span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	@Override</div><div class="line">	<span class="keyword">public</span> <span class="keyword">String</span> toString() &#123;</div><div class="line">		<span class="keyword">return</span> <span class="keyword">String</span>.format(<span class="string">"OgnlWrapper[%s]"</span>, <span class="keyword">this</span>.payload.toString());</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> main(<span class="keyword">String</span>[] args) &#123;</div><div class="line">		<span class="keyword">String</span> json = <span class="string">"&#123;\"user\":&#123;\"name\":\"123\",\"depart\":[1,2]&#125;&#125;"</span>;</div><div class="line">		Map&lt;?, ?&gt; <span class="built_in">map</span> = JacksonHelper.fromJson(json, Map.class);</div><div class="line">		OgnlWrapper ognlWrapper = <span class="keyword">new</span> OgnlWrapper(<span class="built_in">map</span>);</div><div class="line">		System.err.<span class="built_in">println</span>(ognlWrapper.<span class="built_in">get</span>(<span class="string">"user.name"</span>));</div><div class="line">		System.err.<span class="built_in">println</span>(ognlWrapper.<span class="built_in">get</span>(<span class="string">"user.depart.size"</span>));</div><div class="line">		System.err.<span class="built_in">println</span>(ognlWrapper.<span class="built_in">get</span>(<span class="string">"user.depart[0]"</span>));</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="3、使用手册"><a href="#3、使用手册" class="headerlink" title="3、使用手册"></a>3、使用手册</h3><h4 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h4><p>OgnlWrapper是基于ognl.Ognl类的一个工具类，实现基于图对属性的访问，支持ognl的所有语法。 提供三个核心方法:<br>get();<br>getLong(); //如果值非long型，将返回null<br>getInt(); //如果值非int型，将返回null</p>
+<h4 id="使用注意"><a href="#使用注意" class="headerlink" title="使用注意"></a>使用注意</h4><p>在使用Long longvalue = ognlWrapper.get(“body.payload.page.page_size”); 时出现如下错误: java.lang.ClassCastException: java.lang.Long cannot be cast to java.lang.Integer<br>解决方法:使用getLong方法<br>Long longvalue = ognlWrapper.getLong(“body.payload.page.page_size”);</p>
+<p>获取不存在的属性时返回null，日志中会打印warn警告日志。 如:ognlWrapper.getLong(“body.payload[0].childrens[0].childrens.size”); // return null</p>
+<h4 id="单个对象"><a href="#单个对象" class="headerlink" title="单个对象"></a>单个对象</h4><figure class="highlight haxe"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">User user = <span class="keyword">new</span> <span class="type">User</span>(); <span class="comment">//设置用户的相关属性</span></div><div class="line"><span class="comment">//...省略属性设置</span></div><div class="line"><span class="comment">//使用OgnlWrapper</span></div><div class="line">OgnlWrapper ognlWrapper = <span class="keyword">new</span> <span class="type">OgnlWrapper</span>(user);</div><div class="line"><span class="keyword">String</span> id = ognlWrapper.<span class="keyword">get</span>(<span class="string">"id"</span>);<span class="comment">//获取id</span></div><div class="line"></div><div class="line"><span class="comment">//状态. 请使用基本数据类型的封装类型</span></div><div class="line">Integer status = ognlWrapper.getInt(<span class="string">"status"</span>);	</div><div class="line"><span class="comment">//联系信息中的邮件地址</span></div><div class="line"><span class="keyword">String</span> email = ognlWrapper.<span class="keyword">get</span>(<span class="string">"contact_info.email"</span>);</div><div class="line"></div><div class="line"><span class="comment">//获取一个不存在的属性</span></div><div class="line"><span class="comment">//将返回null</span></div><div class="line"><span class="keyword">String</span> noexist = ognlWrapper.<span class="keyword">get</span>(<span class="string">"noexist"</span>);</div><div class="line"> </div><div class="line"><span class="comment">//将返回null</span></div><div class="line">noexist = ognlWrapper.<span class="keyword">get</span>(<span class="string">"contact_info.noexist"</span>);</div></pre></td></tr></table></figure>
+<h4 id="对list操作"><a href="#对list操作" class="headerlink" title="对list操作"></a>对list操作</h4><figure class="highlight processing"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="comment">//将存放用户的列表数据放到map中 map.put("users",list);</span></div><div class="line"><span class="comment">//使用OgnlWrapper获取用户列表数据</span></div><div class="line">OgnlWrapper ognlWrapper = <span class="keyword">new</span> OgnlWrapper(<span class="built_in">map</span>);</div><div class="line"></div><div class="line"><span class="comment">//获取list大小。如果map未存放list则返回null</span></div><div class="line">Integer <span class="built_in">size</span> = ognlWrapper.getInt(<span class="string">"users.size"</span>); </div><div class="line"><span class="keyword">if</span>(<span class="keyword">null</span> == <span class="built_in">size</span> || <span class="number">0</span> == <span class="built_in">size</span>.intValue())  <span class="keyword">return</span> ;</div><div class="line"></div><div class="line"><span class="comment">//获取list中第一用户的用户id和name 注意:下标从0开始</span></div><div class="line"><span class="keyword">String</span> id = ognlWrapper.<span class="built_in">get</span>(<span class="string">"users[0].id"</span>);</div><div class="line"><span class="keyword">String</span> name = ognlWrapper.<span class="built_in">get</span>(<span class="string">"users[0].name"</span>);</div><div class="line"></div><div class="line"><span class="comment">//如果索引超出list的大小，将返回null</span></div><div class="line"><span class="keyword">String</span> nullvalue = ognlWrapper.<span class="built_in">get</span>(<span class="string">"users[9999999].id"</span>);	</div></pre></td></tr></table></figure>
+<p><strong>使用OgnlWrapper获取属性值时，请使用对象类型。如int 使用Integer类型。</strong></p>
+
+            <div class="article-copyright">
+  <i class="fa fa-lightbulb-o"></i>本文由 <a href="http://www.onecoderspace.com/2017/10/07/spring-boot-util-ognl/index.html">足迹|成长之路</a> 创作，采用
+  <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 进行许可。
+  可自由转载、引用，但需署名作者且注明文章出处。本文链接为<a href="http://www.onecoderspace.com/2017/10/07/spring-boot-util-ognl/" target="_blank" rel="external">http://www.onecoderspace.com/2017/10/07/spring-boot-util-ognl/</a>
+</div>
+
+            <div class="article-dashang">
+  <span>如果您觉得文章不错,可以请我喝一杯咖啡！</span><br/>
+  <a id="btn_donate" class="btn_donate" target="_self" href="javascript:;" title="Donate 打赏"></a>
+  <div id="dim-codes" hidden="hidden">
+    <ul class="img_box_ul">
+      <li><img src="/css/images/weixin.png" /></li>
+      <li><img src="/css/images/zhifubao.png" /></li>
+    </ul>
+  </div>
+</div>
+<script type="text/javascript">
+    $('#btn_donate').click(function(){
+      $('#dim-codes').toggle(300);
+    })
+</script>
+
+        
+        </div>
+        <footer class="article-footer">
+
+            
+    
+        <a href="http://www.onecoderspace.com/2017/10/07/spring-boot-util-ognl/#comments" class="article-comment-link">评论</a>
+    
+
+
+            <div class="share-container">
+
+    <div class="jiathis_style">
+    <span class="jiathis_txt">分享到：</span>
+    <a class="jiathis_button_qzone">QQ空间</a>
+    <a class="jiathis_button_tsina">新浪微博</a>
+    <a class="jiathis_button_tqq">腾讯微博</a>
+    <a class="jiathis_button_weixin">微信</a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a>
+    <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<style>
+    .jiathis_style div:first-child:not(.jiadiv_01) {
+        width: auto !important;
+        border: none !important;
+    }
+    .jiathis_style .jiadiv_01 {
+        margin: 10px 0;
+        border-radius: 4px;
+        border: #e1e1e1 solid 1px;
+    }
+    .jiathis_style .jiadiv_01 div:first-child {
+        display: none;
+    }
+    .jiathis_style .jiadiv_02 {
+        padding: 7px 0 !important;
+    }
+    .jiathis_style .jiadiv_02 .jiatitle {
+        width: 85px;
+        border: none;
+        height: auto;
+        margin: 3px 10px;
+        padding: 6px 10px;
+        border-radius: 4px;
+    }
+    .jiathis_style .jiadiv_02 .jiatitle:hover {
+        border: none;
+    }
+    .jiathis_style .jiadiv_02 .jiatitle:nth-child(even) {
+        margin-left: 0;
+    }
+    .jiathis_style .jtico:hover {
+        opacity: 1;
+    }
+    .jiathis_style .ckepopBottom,
+    .jiathis_style .centerBottom {
+        width: auto !important;
+        padding: 5px;
+        background: #f7f7f7;
+    }
+</style>
+
+
+
+
+</div>
+
+        </footer>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+    
+        <a href="/2017/10/07/spring-boot-json-util/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">下一篇</strong>
+            <div class="article-nav-title">spring boot项目实战-json</div>
+        </a>
+    
+</nav>
+
+
+    
+</article>
+
+
+    
+    <section id="comments">
+    
+        
+    <div id="uyan_frame"></div>
+
+    
+    </section>
+
+
+
+</section>
+            
+                <aside id="sidebar">
+   
+        <div class="widget-wrap">
+        <h3 class="widget-title">公告</h3>
+        <div class="widget">
+            <div class="card-front animated col s12 m12 l8 offset-l2 fadeInUp">
+                <p class="board">
+                    您好，您是第<span id="busuanzi_value_site_uv"></span>位访客<br>
+                    602361158<br>
+                    微信：sky602361158<br>
+                    邮箱：q7322068@126.com<br><br>
+                    欢迎交流与分享经验!</p>
+            </div>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">分类</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/java实战/">java实战</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/spring-boot实战/">spring boot实战</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/">前端</a><span class="category-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">归档</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a><span class="archive-list-count">16</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a><span class="archive-list-count">5</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">标签云</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/CORS/" style="font-size: 15px;">CORS</a> <a href="/tags/CSRF/" style="font-size: 15px;">CSRF</a> <a href="/tags/JPA/" style="font-size: 15px;">JPA</a> <a href="/tags/XSS/" style="font-size: 10px;">XSS</a> <a href="/tags/ajax-post跨域/" style="font-size: 10px;">ajax post跨域</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/html生成页面无法滚动/" style="font-size: 10px;">html生成页面无法滚动</a> <a href="/tags/java实战-spirng-boot-项目高效开发-自动构建-代码生成/" style="font-size: 10px;">java实战 spirng-boot 项目高效开发 自动构建 代码生成</a> <a href="/tags/json/" style="font-size: 10px;">json</a> <a href="/tags/ognl/" style="font-size: 10px;">ognl</a> <a href="/tags/redis/" style="font-size: 15px;">redis</a> <a href="/tags/shiro/" style="font-size: 15px;">shiro</a> <a href="/tags/shiro-session过期时间/" style="font-size: 10px;">shiro session过期时间</a> <a href="/tags/spring-boot/" style="font-size: 20px;">spring boot</a> <a href="/tags/spring-profile/" style="font-size: 10px;">spring profile</a> <a href="/tags/spring-boot实战/" style="font-size: 10px;">spring-boot实战</a> <a href="/tags/spring-session/" style="font-size: 15px;">spring-session</a> <a href="/tags/swagger2/" style="font-size: 10px;">swagger2</a> <a href="/tags/web基础框架/" style="font-size: 10px;">web基础框架</a> <a href="/tags/xss/" style="font-size: 10px;">xss</a> <a href="/tags/事务/" style="font-size: 15px;">事务</a> <a href="/tags/共享session/" style="font-size: 10px;">共享session</a> <a href="/tags/分布式锁/" style="font-size: 10px;">分布式锁</a> <a href="/tags/分布式锁，redis/" style="font-size: 10px;">分布式锁，redis</a> <a href="/tags/列表数据缓存/" style="font-size: 10px;">列表数据缓存</a> <a href="/tags/前端/" style="font-size: 10px;">前端</a> <a href="/tags/在线接口文档/" style="font-size: 10px;">在线接口文档</a> <a href="/tags/安全/" style="font-size: 10px;">安全</a> <a href="/tags/工具类/" style="font-size: 10px;">工具类</a> <a href="/tags/异常/" style="font-size: 10px;">异常</a> <a href="/tags/异常处理/" style="font-size: 10px;">异常处理</a> <a href="/tags/接口文档/" style="font-size: 10px;">接口文档</a> <a href="/tags/日志/" style="font-size: 15px;">日志</a> <a href="/tags/日期处理/" style="font-size: 10px;">日期处理</a> <a href="/tags/权限控制/" style="font-size: 15px;">权限控制</a> <a href="/tags/缓存/" style="font-size: 10px;">缓存</a> <a href="/tags/详情页返回列表无刷新/" style="font-size: 10px;">详情页返回列表无刷新</a> <a href="/tags/跨域/" style="font-size: 10px;">跨域</a> <a href="/tags/跨域支持/" style="font-size: 10px;">跨域支持</a> <a href="/tags/集合/" style="font-size: 10px;">集合</a>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">链接</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="http://itmuch.com" target="_blank">周立</a>
+                    </li>
+                
+                    <li>
+                        <a href="http://blog.didispace.com" target="_blank">程序猿DD</a>
+                    </li>
+                
+                    <li>
+                        <a href="http://edisonxu.org" target="_blank">EdisonXu</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+
+            
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            &copy; 2017 杨文魁<br>
+            本站总访问量<span id="busuanzi_value_site_pv"></span>次<br>
+            Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>.
+        </div>
+    </div>
+</footer>
+
+        
+    
+    <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=2144705"></script>
+
+
+
+    
+      <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+        <script src="/vendor/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/vendor/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/vendor/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/vendor/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/vendor/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/vendor/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/vendor/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/vendor/lightgallery/js/lg-share.min.js"></script>
+        <script src="/vendor/lightgallery/js/lg-video.min.js"></script>
+    
+    
+
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>
+</html>
