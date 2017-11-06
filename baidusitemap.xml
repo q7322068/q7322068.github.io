@@ -4,6 +4,28 @@
 
     
   <url>
+    <loc>http://www.onecoderspace.com/2017/11/05/coding-guidelines/</loc>
+    <lastmod>2017-11-06T13:55:49.000Z</lastmod>
+    <data>
+        <display>
+        <title>Java编程规范（自我总结版一）</title>
+        <pubTime>2017-11-05T11:23:03.000Z</pubTime>
+        
+        <tag>java实战</tag>
+         
+        <tag>编程规范</tag>
+         
+         
+           
+             
+              <breadCrumb title="java实战" url="http://www.onecoderspace.com/categories/java%E5%AE%9E%E6%88%98/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://www.onecoderspace.com/2017/10/29/code-generator/</loc>
     <lastmod>2017-10-29T12:51:39.000Z</lastmod>
     <data>
@@ -189,9 +211,9 @@
         
         <tag>spring boot</tag>
          
-        <tag>权限控制</tag>
-         
         <tag>shiro</tag>
+         
+        <tag>权限控制</tag>
          
          
            
@@ -235,17 +257,23 @@
         <title>spring boot实战</title>
         <pubTime>2017-09-25T13:43:52.000Z</pubTime>
         
-        <tag>CORS</tag>
-         
         <tag>CSRF</tag>
+         
+        <tag>CORS</tag>
          
         <tag>日志</tag>
          
-        <tag>spring-session</tag>
+        <tag>JPA</tag>
          
         <tag>redis</tag>
          
-        <tag>JPA</tag>
+        <tag>shiro</tag>
+         
+        <tag>权限控制</tag>
+         
+        <tag>spring-session</tag>
+         
+        <tag>事务</tag>
          
         <tag>spring-boot实战</tag>
          
@@ -253,11 +281,7 @@
          
         <tag>异常</tag>
          
-        <tag>事务</tag>
-         
         <tag>接口文档</tag>
-         
-        <tag>权限控制</tag>
          
         <tag>跨域支持</tag>
          
@@ -268,8 +292,6 @@
         <tag>缓存</tag>
          
         <tag>分布式锁</tag>
-         
-        <tag>shiro</tag>
          
          
            
